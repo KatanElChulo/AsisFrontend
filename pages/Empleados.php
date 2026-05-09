@@ -7,7 +7,7 @@
 <body>
 
 <h1>Empleados</h1>
-
+<h2>Lista de Empleados</h2>
 <button onclick="crearEmpleado()">
     Agregar empleado
 </button>

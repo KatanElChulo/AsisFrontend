@@ -89,7 +89,7 @@
 let editando = false;
 let nombreActual = null;
 
-/* MODAL */
+/* MODAL moi joto */
 function abrirModal() {
     document.getElementById("modalRol").style.display = "flex";
 }

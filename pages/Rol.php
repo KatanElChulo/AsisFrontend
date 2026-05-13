@@ -36,6 +36,7 @@
 
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Acciones</th>
                 </tr>
@@ -47,7 +48,6 @@
 
     </div>
 
-    <!-- 🔥 ALERTA (ESTO FALTABA Y CAUSABA EL ERROR) -->
     <div id="alerta" class="alerta"></div>
 
     <!-- MODAL -->
@@ -80,7 +80,7 @@
 <script>
 
 let editando = false;
-let nombreActual = null;
+let idActual = null;
 
 /* MODAL */
 function abrirModal() {
@@ -95,10 +95,10 @@ function cerrarModal() {
     document.getElementById("tituloModal").innerText = "Agregar rol";
 
     editando = false;
-    nombreActual = null;
+    idActual = null;
 }
 
-/* ALERTA (IGUAL QUE EMPLEADOS) */
+/* ALERTA */
 function mostrarAlerta(mensaje, tipo = "success") {
 
     const alerta = document.getElementById("alerta");
@@ -113,7 +113,7 @@ function mostrarAlerta(mensaje, tipo = "success") {
     }, 3000);
 }
 
-/* CARGAR ROLES  moi es maricon*/
+/* CARGAR ROLES */
 async function cargarRoles() {
 
     try {
@@ -130,23 +130,21 @@ async function cargarRoles() {
 
             html += `
                 <tr>
-
+                    <td>${rol.id}</td>
                     <td>${rol.nombre}</td>
-
                     <td>
 
                         <button class="btn-editar"
-                            onclick="editarRol('${rol.nombre}')">
+                            onclick="editarRol(${rol.id})">
                             Editar
                         </button>
 
                         <button class="btn-eliminar"
-                            onclick="eliminarRol('${rol.nombre}')">
+                            onclick="eliminarRol(${rol.id})">
                             Eliminar
                         </button>
 
                     </td>
-
                 </tr>
             `;
         });
@@ -192,7 +190,7 @@ async function guardarRol() {
     let method = "POST";
 
     if (editando) {
-        url += `?nombre=${encodeURIComponent(nombreActual)}`;
+        url += `?id=${idActual}`;
         method = "PUT";
     }
 
@@ -222,10 +220,10 @@ async function guardarRol() {
 }
 
 /* EDITAR */
-async function editarRol(nombre) {
+async function editarRol(id) {
 
     const res = await fetch(
-        `http://localhost/AsisProyecto/AsisBackend/api/roles.php?nombre=${encodeURIComponent(nombre)}`
+        `http://localhost/AsisProyecto/AsisBackend/api/roles.php?id=${id}`
     );
 
     const rol = await res.json();
@@ -233,7 +231,7 @@ async function editarRol(nombre) {
     abrirModal();
 
     editando = true;
-    nombreActual = nombre;
+    idActual = id;
 
     document.getElementById("tituloModal").innerText =
         "Editar rol";
@@ -243,14 +241,14 @@ async function editarRol(nombre) {
 }
 
 /* ELIMINAR */
-async function eliminarRol(nombre) {
+async function eliminarRol(id) {
 
     if (!confirm("¿Seguro que deseas eliminar este rol?")) return;
 
     try {
 
         const res = await fetch(
-            `http://localhost/AsisProyecto/AsisBackend/api/roles.php?nombre=${encodeURIComponent(nombre)}`,
+            `http://localhost/AsisProyecto/AsisBackend/api/roles.php?id=${id}`,
             { method: "DELETE" }
         );
 

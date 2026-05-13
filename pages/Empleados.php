@@ -14,40 +14,55 @@
 
     <h1>Lista de empleados</h1>
 
-    <button onclick="abrirModal()">
-        Agregar empleado
-    </button>
+    <div class="acciones-superiores">
 
-    <input
-    type="text"
-    id="busqueda"
-    placeholder="Buscar empleado..."
-    onkeyup="buscarEmpleado()"
->
+        <button class="btn-agregar" onclick="abrirModal()">
+            Agregar empleado
+        </button>
 
-    <br><br>
+        <input
+            type="text"
+            id="busqueda"
+            placeholder="Buscar empleado..."
+            onkeyup="buscarEmpleado()"
+        >
 
-    <table>
+    </div>
 
-        <thead>
+    <br>
 
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Rol</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Sueldo</th>
-                <th>Acciones</th>
-            </tr>
+    <div class="tabla-responsive">
 
-        </thead>
+        <table>
 
-        <tbody id="tablaEmpleados">
+            <thead>
 
-        </tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Rol</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Sueldo</th>
+                    <th>Acciones</th>
+                </tr>
 
-    </table>
+            </thead>
+
+            <tbody id="tablaEmpleados">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ALERTA -->
+
+    <div id="alerta" class="alerta">
+</div>
+
+    
 
     <!-- MODAL -->
 
@@ -81,7 +96,7 @@
 
             <br><br>
 
-            <button onclick="crearEmpleado()">
+            <button class="btn-guardar" onclick="crearEmpleado()">
                 Guardar empleado
             </button>
 
@@ -122,6 +137,25 @@ function cerrarModal() {
     editando = false;
 
     empleadoId = null;
+}
+
+function mostrarAlerta(mensaje, tipo = "success") {
+
+    const alerta = document.getElementById("alerta");
+
+    alerta.innerText = mensaje;
+
+    // limpiar clases base
+    alerta.classList.remove("success", "error");
+
+    // agregar clases correctas
+    alerta.classList.add("mostrar", tipo);
+
+    setTimeout(() => {
+
+        alerta.classList.remove("mostrar");
+
+    }, 3000);
 }
 
 async function cargarRoles() {
@@ -178,11 +212,17 @@ async function cargarEmpleados() {
 
                 <td>
 
-                    <button onclick="editarEmpleado(${emp.id})">
+                    <button
+                        class="btn-editar"
+                        onclick="editarEmpleado(${emp.id})"
+                    >
                         Editar
                     </button>
 
-                    <button onclick="eliminarEmpleado(${emp.id})">
+                    <button
+                        class="btn-eliminar"
+                        onclick="eliminarEmpleado(${emp.id})"
+                    >
                         Eliminar
                     </button>
 
@@ -222,6 +262,20 @@ function buscarEmpleado() {
 }
 
 async function crearEmpleado() {
+
+    if(
+        document.getElementById("nombre").value === "" ||
+        document.getElementById("correo").value === "" ||
+        document.getElementById("telefono").value === ""
+    ) {
+
+        mostrarAlerta(
+            "Completa todos los campos obligatorios",
+            "error"
+        );
+
+        return;
+    }
 
     const empleado = {
 
@@ -269,6 +323,15 @@ async function crearEmpleado() {
         body: JSON.stringify(empleado)
     });
 
+    if(editando) {
+
+        mostrarAlerta("Empleado actualizado");
+    }
+    else {
+
+        mostrarAlerta("Empleado agregado");
+    }
+
     cerrarModal();
 
     cargarEmpleados();
@@ -315,12 +378,23 @@ async function editarEmpleado(id) {
 
 async function eliminarEmpleado(id) {
 
+    let confirmar = confirm(
+        "¿Seguro que deseas eliminar este empleado?"
+    );
+
+    if(!confirmar) {
+
+        return;
+    }
+
     await fetch(
         `http://localhost/AsisProyecto/AsisBackend/api/empleados.php?id=${id}`,
         {
             method: "DELETE"
         }
     );
+
+    mostrarAlerta("Empleado eliminado");
 
     cargarEmpleados();
 }

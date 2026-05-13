@@ -1,86 +1,152 @@
-<?php
-require_once "../models/Asistencia.php";
-
-// 🔹 REGISTRAR
-if (isset($_POST['qr'])) {
-    $mensaje = Asistencia::registrarPorQR($_POST['qr']);
-}
-
-// 🔹 ELIMINAR
-if (isset($_GET['eliminar'])) {
-    $id = (int)$_GET['eliminar'];
-    global $conn;
-    $conn->query("DELETE FROM asistencias WHERE id = $id");
-}
-
-// 🔹 ACTUALIZAR
-if (isset($_POST['editar_id'])) {
-    $id = (int)$_POST['editar_id'];
-    $tipo = $_POST['tipo'];
-
-    global $conn;
-    $conn->query("UPDATE asistencias SET tipo = '$tipo' WHERE id = $id");
-}
-
-// 🔹 OBTENER DATOS
-$asistencias = Asistencia::obtenerTodas();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Asistencias</title>
+
+    
+    <link rel="stylesheet" href="../css/style.css">
+        
+    
 </head>
+
 <body>
 
 <h2>Registro de Asistencia</h2>
 
-<form method="POST">
-    <input type="text" name="qr" placeholder="Escanea QR">
-    <button type="submit">Registrar</button>
-</form>
+<input type="text" id="qr" placeholder="Escanea QR">
+<button onclick="registrarQR()"class ="btn-agregar">Registrar</button>
 
-<?php if (isset($mensaje)) : ?>
-    <p><?php echo $mensaje; ?></p>
-<?php endif; ?>
+<p id="mensaje"></p>
 
 <h3>Lista de asistencias</h3>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Empleado</th>
-        <th>Fecha</th>
-        <th>Tipo</th>
-        <th>Acciones</th>
-    </tr>
+<table>
 
-    <?php foreach ($asistencias as $a): ?>
-    <tr>
-        <td><?php echo $a['id']; ?></td>
-        <td><?php echo $a['nombre']; ?></td>
-        <td><?php echo $a['fecha']; ?></td>
-        <td><?php echo $a['tipo']; ?></td>
-        <td>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Empleado</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
 
-            <!-- EDITAR -->
-            <form method="POST" style="display:inline;">
-                <input type="hidden" name="editar_id" value="<?php echo $a['id']; ?>">
-                <select name="tipo">
-                    <option value="entrada">Entrada</option>
-                    <option value="salida">Salida</option>
-                </select>
-                <button type="submit">Editar</button>
-            </form>
-
-            <!-- ELIMINAR -->
-            <a href="?eliminar=<?php echo $a['id']; ?>">Eliminar</a>
-
-        </td>
-    </tr>
-    <?php endforeach; ?>
+    <tbody id="tabla"></tbody>
 
 </table>
+
+<script>
+
+const API = "http://localhost/AsisProyecto/AsisBackend/api/asistencias.php";
+
+/* =========================
+   FUNCIÓN SEGURA JSON
+========================= */
+async function fetchJSON(url, options = {}) {
+
+    const res = await fetch(url, options);
+    const text = await res.text();
+
+    try {
+        return JSON.parse(text);
+    } catch (e) {
+        console.error("Respuesta NO JSON del servidor:", text);
+        return { success: false, message: "Error en servidor" };
+    }
+}
+
+/* =========================
+   CARGAR ASISTENCIAS
+========================= */
+async function cargar() {
+
+    const result = await fetchJSON(API);
+
+    if (!result.success) {
+        document.getElementById("mensaje").innerText =
+            result.message || "Error al cargar datos";
+        return;
+    }
+
+    let html = "";
+
+    result.data.forEach(a => {
+
+        html += `
+        <tr>
+            <td>${a.id}</td>
+            <td>${a.nombre}</td>
+            <td>${a.fecha}</td>
+            <td>${a.tipo}</td>
+            <td>
+
+                <select onchange="editar(${a.id}, this.value)">
+                    <option value="entrada" ${a.tipo === "entrada" ? "selected" : ""}>Entrada</option>
+                    <option value="salida" ${a.tipo === "salida" ? "selected" : ""}>Salida</option>
+                </select>
+
+                <button onclick="eliminar(${a.id})">Eliminar</button>
+
+            </td>
+        </tr>
+        `;
+    });
+
+    document.getElementById("tabla").innerHTML = html;
+}
+
+/* =========================
+   REGISTRAR QR
+========================= */
+async function registrarQR() {
+
+    const qr = document.getElementById("qr").value;
+
+    const result = await fetchJSON(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ qr })
+    });
+
+    document.getElementById("mensaje").innerText =
+        result.message || "Respuesta sin mensaje";
+
+    cargar();
+}
+
+/* =========================
+   EDITAR
+========================= */
+async function editar(id, tipo) {
+
+    await fetchJSON(`${API}?id=${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tipo })
+    });
+
+    cargar();
+}
+
+/* =========================
+   ELIMINAR
+========================= */
+async function eliminar(id) {
+
+    if (!confirm("¿Eliminar registro?")) return;
+
+    await fetchJSON(`${API}?id=${id}`, {
+        method: "DELETE"
+    });
+
+    cargar();
+}
+
+/* INIT */
+cargar();
+
+</script>
 
 </body>
 </html>

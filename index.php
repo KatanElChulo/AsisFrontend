@@ -2,27 +2,85 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login - Sistema de Asistencia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Control de Asistencia</title>
+
+  <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
 
-  <h1>Iniciar sesión</h1>
+  <main class="login-page">
 
-  <form id="loginForm">
-    <label>Correo:</label>
-    <input type="email" id="correo" required>
+    <section class="login-card">
 
-    <br><br>
+      <div class="login-icon">
+        👤
+      </div>
 
-    <label>Contraseña:</label>
-    <input type="password" id="password" required>
+      <h1>Sistema de<br>Control de Asistencia</h1>
 
-    <br><br>
+      <p class="login-subtitle">
+        Inicia sesión para continuar
+      </p>
 
-    <button type="submit">Entrar</button>
-  </form>
+      <form id="loginForm">
 
-  <p id="mensaje"></p>
+        <div class="form-group">
+          <label for="correo">Correo electrónico</label>
+
+          <div class="input-box">
+            <span>✉️</span>
+            <input 
+              type="email" 
+              id="correo" 
+              placeholder="ejemplo@correo.com" 
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+
+          <div class="input-box">
+            <span>🔒</span>
+            <input 
+              type="password" 
+              id="password" 
+              placeholder="Ingresa tu contraseña" 
+              required
+            >
+          </div>
+        </div>
+
+        <div class="login-options">
+          <label>
+            <input type="checkbox">
+            Recordarme
+          </label>
+
+          <a href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button type="submit" class="login-button">
+          Iniciar sesión
+        </button>
+
+        <p id="mensaje" class="login-message"></p>
+
+      </form>
+
+      <div class="login-access">
+        Acceso para <strong>Administrador</strong> y <strong>Empleado</strong>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="login-footer">
+    © 2025 Sistema de Control de Asistencia. Todos los derechos reservados.
+  </footer>
 
   <script>
     const form = document.getElementById("loginForm");
@@ -46,7 +104,6 @@
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
 
         if (data.success) {
           localStorage.setItem("usuario", JSON.stringify(data.usuario));
@@ -59,11 +116,14 @@
 
         } else {
           mensaje.textContent = data.message;
+          mensaje.classList.add("error");
         }
+
       })
       .catch(error => {
-        console.error("Error:", error);
+        console.error(error);
         mensaje.textContent = "Error al conectar con el servidor";
+        mensaje.classList.add("error");
       });
     });
   </script>

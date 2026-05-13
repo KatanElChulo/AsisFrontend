@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="UTF-8">
-
     <title>Roles</title>
 
     <link rel="stylesheet" href="../css/style.css">
@@ -14,38 +13,44 @@
 
     <h1>Lista de Roles</h1>
 
-    <button onclick="abrirModal()">
-        Agregar rol
-    </button>
+    <div class="acciones-superiores">
 
-    <input
-        type="text"
-        id="busqueda"
-        placeholder="Buscar rol..."
-        onkeyup="buscarRol()"
-    >
+        <button class="btn-agregar" onclick="abrirModal()">
+            Agregar rol
+        </button>
 
-    <br><br>
+        <input
+            type="text"
+            id="busqueda"
+            placeholder="Buscar rol..."
+            onkeyup="buscarRol()"
+        >
 
-    <table>
+    </div>
 
-        <thead>
+    <br>
 
-            <tr>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
+    <div class="tabla-responsive">
 
-        </thead>
+        <table>
 
-        <tbody id="tablaRoles">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
 
-        </tbody>
+            <tbody id="tablaRoles"></tbody>
 
-    </table>
+        </table>
+
+    </div>
+
+    <!-- 🔥 ALERTA (ESTO FALTABA Y CAUSABA EL ERROR) -->
+    <div id="alerta" class="alerta"></div>
 
     <!-- MODAL -->
-
     <div id="modalRol" class="modal">
 
         <div class="modal-contenido">
@@ -54,9 +59,7 @@
                 &times;
             </span>
 
-            <h2 id="tituloModal">
-                Agregar rol
-            </h2>
+            <h2 id="tituloModal">Agregar rol</h2>
 
             <input
                 type="text"
@@ -66,7 +69,7 @@
 
             <br><br>
 
-            <button onclick="guardarRol()">
+            <button class="btn-guardar" onclick="guardarRol()">
                 Guardar rol
             </button>
 
@@ -77,11 +80,10 @@
 <script>
 
 let editando = false;
-
 let nombreActual = null;
 
+/* MODAL */
 function abrirModal() {
-
     document.getElementById("modalRol").style.display = "flex";
 }
 
@@ -90,124 +92,147 @@ function cerrarModal() {
     document.getElementById("modalRol").style.display = "none";
 
     document.getElementById("nombre").value = "";
-
-    document.getElementById("tituloModal").innerText =
-        "Agregar rol";
+    document.getElementById("tituloModal").innerText = "Agregar rol";
 
     editando = false;
-
     nombreActual = null;
 }
 
-async function cargarRoles() {
+/* ALERTA (IGUAL QUE EMPLEADOS) */
+function mostrarAlerta(mensaje, tipo = "success") {
 
-    const respuesta = await fetch(
-        "http://localhost/AsisProyecto/AsisBackend/api/roles.php"
-    );
+    const alerta = document.getElementById("alerta");
 
-    const data = await respuesta.json();
+    alerta.innerText = mensaje;
 
-    let html = "";
+    alerta.classList.remove("success", "error");
+    alerta.classList.add("mostrar", tipo);
 
-    data.forEach(rol => {
-
-        html += `
-            <tr>
-
-                <td>${rol.nombre}</td>
-
-                <td>
-
-                    <button onclick="editarRol('${rol.nombre}')">
-                        Editar
-                    </button>
-
-                    <button onclick="eliminarRol('${rol.nombre}')">
-                        Eliminar
-                    </button>
-
-                </td>
-
-            </tr>
-        `;
-    });
-
-    document.getElementById("tablaRoles").innerHTML = html;
+    setTimeout(() => {
+        alerta.classList.remove("mostrar");
+    }, 3000);
 }
 
+/* CARGAR ROLES */
+async function cargarRoles() {
+
+    try {
+
+        const res = await fetch(
+            "http://localhost/AsisProyecto/AsisBackend/api/roles.php"
+        );
+
+        const data = await res.json();
+
+        let html = "";
+
+        data.forEach(rol => {
+
+            html += `
+                <tr>
+
+                    <td>${rol.nombre}</td>
+
+                    <td>
+
+                        <button class="btn-editar"
+                            onclick="editarRol('${rol.nombre}')">
+                            Editar
+                        </button>
+
+                        <button class="btn-eliminar"
+                            onclick="eliminarRol('${rol.nombre}')">
+                            Eliminar
+                        </button>
+
+                    </td>
+
+                </tr>
+            `;
+        });
+
+        document.getElementById("tablaRoles").innerHTML = html;
+
+    } catch (error) {
+        mostrarAlerta("Error al cargar roles", "error");
+    }
+}
+
+/* BUSCAR */
 function buscarRol() {
 
     let filtro =
-        document.getElementById("busqueda")
-        .value
-        .toLowerCase();
+        document.getElementById("busqueda").value.toLowerCase();
 
     let filas =
         document.querySelectorAll("#tablaRoles tr");
 
     filas.forEach(fila => {
 
-        let texto =
-            fila.innerText.toLowerCase();
-
-        if(texto.includes(filtro)) {
-
-            fila.style.display = "";
-        }
-        else {
-
-            fila.style.display = "none";
-        }
+        fila.style.display =
+            fila.innerText.toLowerCase().includes(filtro)
+            ? ""
+            : "none";
     });
 }
 
+/* GUARDAR */
 async function guardarRol() {
 
-    const rol = {
+    const nombre = document.getElementById("nombre").value;
 
-        nombre: document.getElementById("nombre").value
-    };
+    if (!nombre) {
+        mostrarAlerta("Escribe un nombre", "error");
+        return;
+    }
 
     let url =
         "http://localhost/AsisProyecto/AsisBackend/api/roles.php";
 
     let method = "POST";
 
-    if(editando) {
-
+    if (editando) {
         url += `?nombre=${encodeURIComponent(nombreActual)}`;
-
         method = "PUT";
     }
 
-    await fetch(url, {
+    try {
 
-        method: method,
+        const res = await fetch(url, {
+            method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ nombre })
+        });
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+        if (!res.ok) throw new Error();
 
-        body: JSON.stringify(rol)
-    });
+        mostrarAlerta(
+            editando ? "Rol actualizado" : "Rol agregado",
+            "success"
+        );
 
-    cerrarModal();
+        cerrarModal();
+        cargarRoles();
 
-    cargarRoles();
+    } catch (error) {
+        mostrarAlerta("Error al guardar rol", "error");
+    }
 }
 
+/* EDITAR */
 async function editarRol(nombre) {
 
-    const respuesta = await fetch(
+    const res = await fetch(
         `http://localhost/AsisProyecto/AsisBackend/api/roles.php?nombre=${encodeURIComponent(nombre)}`
     );
 
-    const rol = await respuesta.json();
+    const rol = await res.json();
 
     abrirModal();
 
     editando = true;
-
     nombreActual = nombre;
 
     document.getElementById("tituloModal").innerText =
@@ -217,18 +242,30 @@ async function editarRol(nombre) {
         rol.nombre;
 }
 
+/* ELIMINAR */
 async function eliminarRol(nombre) {
 
-    await fetch(
-        `http://localhost/AsisProyecto/AsisBackend/api/roles.php?nombre=${encodeURIComponent(nombre)}`,
-        {
-            method: "DELETE"
-        }
-    );
+    if (!confirm("¿Seguro que deseas eliminar este rol?")) return;
 
-    cargarRoles();
+    try {
+
+        const res = await fetch(
+            `http://localhost/AsisProyecto/AsisBackend/api/roles.php?nombre=${encodeURIComponent(nombre)}`,
+            { method: "DELETE" }
+        );
+
+        if (!res.ok) throw new Error();
+
+        mostrarAlerta("Rol eliminado", "success");
+
+        cargarRoles();
+
+    } catch (error) {
+        mostrarAlerta("Error al eliminar rol", "error");
+    }
 }
 
+/* INIT */
 cargarRoles();
 
 </script>

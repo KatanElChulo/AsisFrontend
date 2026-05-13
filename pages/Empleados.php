@@ -4,7 +4,7 @@
 
     <meta charset="UTF-8">
 
-    <title>Empleados</title>
+    <title>Roles</title>
 
     <link rel="stylesheet" href="../css/style.css">
 
@@ -12,19 +12,19 @@
 
 <body>
 
-    <h1>Lista de empleados</h1>
+    <h1>Lista de Roles</h1>
 
     <div class="acciones-superiores">
 
         <button class="btn-agregar" onclick="abrirModal()">
-            Agregar empleado
+            Agregar rol
         </button>
 
         <input
             type="text"
             id="busqueda"
-            placeholder="Buscar empleado..."
-            onkeyup="buscarEmpleado()"
+            placeholder="Buscar rol..."
+            onkeyup="buscarRol()"
         >
 
     </div>
@@ -38,18 +38,13 @@
             <thead>
 
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>Rol</th>
-                    <th>Correo</th>
-                    <th>Teléfono</th>
-                    <th>Sueldo</th>
                     <th>Acciones</th>
                 </tr>
 
             </thead>
 
-            <tbody id="tablaEmpleados">
+            <tbody id="tablaRoles">
 
             </tbody>
 
@@ -57,16 +52,11 @@
 
     </div>
 
-    <!-- ALERTA -->
-
-    <div id="alerta" class="alerta">
-</div>
-
-    
+    <!-- ALERTA IGUAL QUE EMPLEADOS -->
+    <div id="alerta" class="alerta"></div>
 
     <!-- MODAL -->
-
-    <div id="modalEmpleado" class="modal">
+    <div id="modalRol" class="modal">
 
         <div class="modal-contenido">
 
@@ -75,29 +65,19 @@
             </span>
 
             <h2 id="tituloModal">
-                Agregar empleado
+                Agregar rol
             </h2>
 
-            <select id="rol_id">
-
-            </select>
-
-            <input type="text" id="nombre" placeholder="Nombre">
-
-            <input type="text" id="apellido_paterno" placeholder="Apellido paterno">
-
-            <input type="text" id="apellido_materno" placeholder="Apellido materno">
-
-            <input type="email" id="correo" placeholder="Correo">
-
-            <input type="text" id="telefono" placeholder="Teléfono">
-
-            <input type="number" id="sueldo_diario" placeholder="Sueldo diario">
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Nombre del rol"
+            >
 
             <br><br>
 
-            <button class="btn-guardar" onclick="crearEmpleado()">
-                Guardar empleado
+            <button class="btn-guardar" onclick="guardarRol()">
+                Guardar rol
             </button>
 
         </div>
@@ -107,121 +87,69 @@
 <script>
 
 let editando = false;
+let nombreActual = null;
 
-let empleadoId = null;
-
+/* MODAL */
 function abrirModal() {
-
-    document.getElementById("modalEmpleado").style.display = "flex";
+    document.getElementById("modalRol").style.display = "flex";
 }
 
 function cerrarModal() {
 
-    document.getElementById("modalEmpleado").style.display = "none";
-
+    document.getElementById("modalRol").style.display = "none";
     document.getElementById("nombre").value = "";
-
-    document.getElementById("apellido_paterno").value = "";
-
-    document.getElementById("apellido_materno").value = "";
-
-    document.getElementById("correo").value = "";
-
-    document.getElementById("telefono").value = "";
-
-    document.getElementById("sueldo_diario").value = "";
-
-    document.getElementById("tituloModal").innerText =
-        "Agregar empleado";
+    document.getElementById("tituloModal").innerText = "Agregar rol";
 
     editando = false;
-
-    empleadoId = null;
+    nombreActual = null;
 }
 
+/* ALERTA (MISMO SISTEMA QUE EMPLEADOS) */
 function mostrarAlerta(mensaje, tipo = "success") {
 
     const alerta = document.getElementById("alerta");
 
     alerta.innerText = mensaje;
 
-    // limpiar clases base
     alerta.classList.remove("success", "error");
 
-    // agregar clases correctas
     alerta.classList.add("mostrar", tipo);
 
     setTimeout(() => {
-
         alerta.classList.remove("mostrar");
-
     }, 3000);
 }
 
+/* CARGAR */
 async function cargarRoles() {
 
-    const respuesta = await fetch(
+    const res = await fetch(
         "http://localhost/AsisProyecto/AsisBackend/api/roles.php"
     );
 
-    const data = await respuesta.json();
+    const data = await res.json();
 
     let html = "";
 
     data.forEach(rol => {
 
         html += `
-            <option value="${rol.id}">
-                ${rol.nombre}
-            </option>
-        `;
-    });
-
-    document.getElementById("rol_id").innerHTML = html;
-}
-
-async function cargarEmpleados() {
-
-    const respuesta = await fetch(
-        "http://localhost/AsisProyecto/AsisBackend/api/empleados.php"
-    );
-
-    const data = await respuesta.json();
-
-    let html = "";
-
-    data.forEach(emp => {
-
-        html += `
             <tr>
 
-                <td>${emp.id}</td>
-
-                <td>
-                    ${emp.nombre}
-                    ${emp.apellido_paterno}
-                </td>
-
-                <td>${emp.rol_nombre}</td>
-
-                <td>${emp.correo}</td>
-
-                <td>${emp.telefono}</td>
-
-                <td>$${emp.sueldo_diario}</td>
+                <td>${rol.nombre}</td>
 
                 <td>
 
                     <button
                         class="btn-editar"
-                        onclick="editarEmpleado(${emp.id})"
+                        onclick="editarRol('${rol.nombre}')"
                     >
                         Editar
                     </button>
 
                     <button
                         class="btn-eliminar"
-                        onclick="eliminarEmpleado(${emp.id})"
+                        onclick="eliminarRol('${rol.nombre}')"
                     >
                         Eliminar
                     </button>
@@ -232,176 +160,105 @@ async function cargarEmpleados() {
         `;
     });
 
-    document.getElementById("tablaEmpleados").innerHTML = html;
+    document.getElementById("tablaRoles").innerHTML = html;
 }
 
-function buscarEmpleado() {
+/* BUSCAR */
+function buscarRol() {
 
     let filtro =
-        document.getElementById("busqueda")
-        .value
-        .toLowerCase();
+        document.getElementById("busqueda").value.toLowerCase();
 
     let filas =
-        document.querySelectorAll("#tablaEmpleados tr");
+        document.querySelectorAll("#tablaRoles tr");
 
     filas.forEach(fila => {
 
-        let texto =
-            fila.innerText.toLowerCase();
-
-        if(texto.includes(filtro)) {
-
-            fila.style.display = "";
-        }
-        else {
-
-            fila.style.display = "none";
-        }
+        fila.style.display =
+            fila.innerText.toLowerCase().includes(filtro)
+            ? ""
+            : "none";
     });
 }
 
-async function crearEmpleado() {
+/* GUARDAR */
+async function guardarRol() {
 
-    if(
-        document.getElementById("nombre").value === "" ||
-        document.getElementById("correo").value === "" ||
-        document.getElementById("telefono").value === ""
-    ) {
+    const nombre = document.getElementById("nombre").value;
 
-        mostrarAlerta(
-            "Completa todos los campos obligatorios",
-            "error"
-        );
-
+    if (nombre === "") {
+        mostrarAlerta("Escribe un nombre de rol", "error");
         return;
     }
 
-    const empleado = {
-
-        rol_id: document.getElementById("rol_id").value,
-
-        nombre: document.getElementById("nombre").value,
-
-        apellido_paterno: document.getElementById("apellido_paterno").value,
-
-        apellido_materno: document.getElementById("apellido_materno").value,
-
-        correo: document.getElementById("correo").value,
-
-        password: "123456",
-
-        telefono: document.getElementById("telefono").value,
-
-        sueldo_diario: document.getElementById("sueldo_diario").value,
-
-        horario_entrada: "08:00:00",
-
-        horario_salida: "17:00:00"
-    };
-
     let url =
-        "http://localhost/AsisProyecto/AsisBackend/api/empleados.php";
+        "http://localhost/AsisProyecto/AsisBackend/api/roles.php";
 
     let method = "POST";
 
-    if(editando) {
-
-        url += `?id=${empleadoId}`;
-
+    if (editando) {
+        url += `?nombre=${encodeURIComponent(nombreActual)}`;
         method = "PUT";
     }
 
     await fetch(url, {
 
         method: method,
-
         headers: {
             "Content-Type": "application/json"
         },
-
-        body: JSON.stringify(empleado)
+        body: JSON.stringify({ nombre })
     });
 
-    if(editando) {
-
-        mostrarAlerta("Empleado actualizado");
-    }
-    else {
-
-        mostrarAlerta("Empleado agregado");
-    }
-
-    cerrarModal();
-
-    cargarEmpleados();
-}
-
-async function editarEmpleado(id) {
-
-    const respuesta = await fetch(
-        `http://localhost/AsisProyecto/AsisBackend/api/empleados.php?id=${id}`
+    mostrarAlerta(
+        editando ? "Rol actualizado, success" : "Rol agregado, success"
     );
 
-    const emp = await respuesta.json();
+    cerrarModal();
+    cargarRoles();
+}
+
+/* EDITAR */
+async function editarRol(nombre) {
+
+    const res = await fetch(
+        `http://localhost/AsisProyecto/AsisBackend/api/roles.php?nombre=${encodeURIComponent(nombre)}`
+    );
+
+    const rol = await res.json();
 
     abrirModal();
 
     editando = true;
-
-    empleadoId = id;
+    nombreActual = nombre;
 
     document.getElementById("tituloModal").innerText =
-        "Editar empleado";
-
-    document.getElementById("rol_id").value =
-        emp.rol_id;
+        "Editar rol";
 
     document.getElementById("nombre").value =
-        emp.nombre;
+        rol.nombre;
 
-    document.getElementById("apellido_paterno").value =
-        emp.apellido_paterno;
-
-    document.getElementById("apellido_materno").value =
-        emp.apellido_materno;
-
-    document.getElementById("correo").value =
-        emp.correo;
-
-    document.getElementById("telefono").value =
-        emp.telefono;
-
-    document.getElementById("sueldo_diario").value =
-        emp.sueldo_diario;
+    
 }
 
-async function eliminarEmpleado(id) {
+/* ELIMINAR */
+async function eliminarRol(nombre) {
 
-    let confirmar = confirm(
-        "¿Seguro que deseas eliminar este empleado?"
-    );
-
-    if(!confirmar) {
-
-        return;
-    }
+    if (!confirm("¿Seguro que deseas eliminar este rol?")) return;
 
     await fetch(
-        `http://localhost/AsisProyecto/AsisBackend/api/empleados.php?id=${id}`,
+        `http://localhost/AsisProyecto/AsisBackend/api/roles.php?nombre=${encodeURIComponent(nombre)}`,
         {
             method: "DELETE"
         }
     );
 
-    mostrarAlerta("Empleado eliminado");
-
-    cargarEmpleados();
+    mostrarAlerta("Rol eliminado, success");
+    cargarRoles();
 }
 
+/* INIT */
 cargarRoles();
-
-cargarEmpleados();
 
 </script>
 

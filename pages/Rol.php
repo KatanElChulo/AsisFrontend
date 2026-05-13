@@ -113,7 +113,7 @@ function mostrarAlerta(mensaje, tipo = "success") {
     }, 3000);
 }
 
-/* CARGAR ROLES */
+/* CARGAR ROLES  moi es maricon*/
 async function cargarRoles() {
 
     try {

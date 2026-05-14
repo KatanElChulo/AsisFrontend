@@ -1,68 +1,106 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>QR Dinámico</title>
 
-   
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>QR Asistencia</title>
+
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/qr.css">
+
 </head>
 
 <body>
 
 <div class="qr-page">
 
-    <h2 class="title">Generador de QR</h2>
-    <p class="subtitle">El código se actualiza cada 30 segundos</p>
+    <h1>QR de Asistencia</h1>
+
+    <p>Este código se actualiza cada 30 segundos</p>
 
     <div class="qr-container">
         <div id="qrcode"></div>
     </div>
 
     <div class="timer-box">
-        <span>Tiempo restante:</span>
-        <strong id="timer">30</strong>s
+        Se actualiza en:
+        <span id="timer">30</span>s
     </div>
 
 </div>
 
-<!-- Librería QR -->
+<div id="alerta" class="alerta"></div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
-let qr;
-let timeLeft = 30;
 
+let tiempo = 30;
 
-function generarQR() {
-    const container = document.getElementById("qrcode");
-    container.innerHTML = "";
+function mostrarAlerta(mensaje, tipo = "success") {
 
-   
-    const data = "DorayPaty-" + Date.now();
+    const alerta = document.getElementById("alerta");
 
-    qr = new QRCode(container, {
-        text: data,
-        width: 220,
-        height: 220
-    });
+    alerta.innerText = mensaje;
 
-    timeLeft = 30;
+    alerta.classList.remove("success", "error");
+    alerta.classList.add("mostrar", tipo);
+
+    setTimeout(() => {
+        alerta.classList.remove("mostrar");
+    }, 3000);
 }
 
-// ⏱ contador
-setInterval(() => {
-    timeLeft--;
+async function generarQR() {
 
-    if (timeLeft <= 0) {
+    try {
+
+        const res = await fetch(
+            "http://localhost/AsisProyecto/AsisBackend/api/generar_qr.php"
+        );
+
+        const data = await res.json();
+
+        if (!data.success) {
+            mostrarAlerta("Error al generar QR", "error");
+            return;
+        }
+
+        document.getElementById("qrcode").innerHTML = "";
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: data.token,
+            width: 250,
+            height: 250
+        });
+
+        tiempo = 30;
+
+    } catch (error) {
+
+        console.error(error);
+        mostrarAlerta("Error al conectar con el servidor", "error");
+    }
+}
+
+setInterval(() => {
+
+    tiempo--;
+
+    document.getElementById("timer").innerText = tiempo;
+
+    if (tiempo <= 0) {
         generarQR();
     }
 
-    document.getElementById("timer").innerText = timeLeft;
 }, 1000);
 
-// primera carga
 generarQR();
+
 </script>
 
 </body>

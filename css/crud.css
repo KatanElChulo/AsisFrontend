@@ -1,0 +1,172 @@
+/* ===== CRUDS DORAYPATY ===== */
+
+/* CONTENEDOR SUPERIOR */
+
+.acciones-superiores {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+/* BUSCADOR */
+
+#busqueda {
+
+    width: 300px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    outline: none;
+
+    font-size: 15px;
+
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+/* TABLA RESPONSIVE */
+
+.tabla-responsive {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border-radius: 15px;
+
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.25);
+}
+
+/* TABLA */
+
+table {
+
+    width: 100%;
+
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    background: var(--blanco);
+
+    color: black;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    table-layout: fixed;
+}
+
+thead {
+
+    background: var(--azul-medio);
+}
+
+th {
+
+    color: var(--blanco);
+
+    padding: 18px 10px;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    letter-spacing: 0.5px;
+}
+
+td {
+
+    padding: 18px 10px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #e5e5e5;
+
+    vertical-align: middle;
+
+    word-wrap: break-word;
+
+    font-size: 14px;
+}
+
+tbody tr {
+
+    transition: 0.2s;
+}
+
+tbody tr:hover {
+
+    background: #f3f7fb;
+}
+
+tbody tr:last-child td {
+
+    border-bottom: none;
+}
+
+/* BOTONES DENTRO DE TABLA */
+
+td .btn-editar,
+td .btn-eliminar {
+
+    min-width: 80px;
+}
+
+/* MODAL CRUD */
+
+.modal-contenido input,
+.modal-contenido select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    border-radius: 8px;
+
+    border: 1px solid #ccc;
+
+    box-sizing: border-box;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 900px) {
+
+    .acciones-superiores {
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    #busqueda {
+
+        width: 100%;
+    }
+
+    .tabla-responsive {
+
+        border-radius: 12px;
+    }
+
+    table {
+
+        min-width: 900px;
+    }
+}

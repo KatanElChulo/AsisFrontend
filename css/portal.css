@@ -1,0 +1,158 @@
+/* ===== PORTAL DORAYPATY ===== */
+
+.portal-container {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    text-align: center;
+
+    padding: 20px;
+}
+
+/* TITULOS */
+
+.portal-title {
+
+    font-size: 42px;
+
+    margin-bottom: 10px;
+
+    color: var(--blanco);
+}
+
+.portal-subtitle {
+
+    color: #d6e2ff;
+
+    font-size: 18px;
+
+    margin-bottom: 45px;
+}
+
+/* CONTENEDOR BOTONES */
+
+.portal-buttons {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+
+    width: 320px;
+}
+
+/* BOTONES PORTAL */
+
+.portal-btn {
+
+    border: none;
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.25);
+}
+
+.portal-btn:hover {
+
+    transform: translateY(-4px) scale(1.02);
+}
+
+/* ENTRADA */
+
+.portal-entrada {
+
+    background: linear-gradient(
+        135deg,
+        #27ae60,
+        #2ecc71
+    );
+}
+
+/* SALIDA */
+
+.portal-salida {
+
+    background: linear-gradient(
+        135deg,
+        var(--azul-medio),
+        var(--azul-claro)
+    );
+}
+
+/* ADMIN */
+
+.portal-admin {
+
+    background: linear-gradient(
+        135deg,
+        #c0392b,
+        #e74c3c
+    );
+}
+
+/* LOGOUT */
+
+.portal-logout {
+
+    background: linear-gradient(
+        135deg,
+        #5d6d7e,
+        #85929e
+    );
+}
+
+/* TEXTO PEQUEÑO */
+
+.portal-btn span {
+
+    display: block;
+
+    font-size: 14px;
+
+    margin-top: 8px;
+
+    opacity: 0.9;
+
+    font-weight: normal;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 500px) {
+
+    .portal-title {
+
+        font-size: 32px;
+    }
+
+    .portal-buttons {
+
+        width: 100%;
+    }
+
+    .portal-btn {
+
+        padding: 18px;
+    }
+}

@@ -1,0 +1,36 @@
+/* QR PAGE */
+
+.qr-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    text-align: center;
+}
+
+.qr-container {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    box-shadow: 0px 0px 25px rgba(0,0,0,0.3);
+}
+
+.timer-box {
+
+    margin-top: 20px;
+
+    font-size: 20px;
+
+    color: #d6e2ff;
+}

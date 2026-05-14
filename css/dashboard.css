@@ -1,0 +1,179 @@
+/* ===== DASHBOARD ADMIN DORAYPATY ===== */
+
+.dashboard-container {
+    min-height: 100vh;
+    padding: 35px 25px;
+    background: linear-gradient(
+        135deg,
+        var(--azul-oscuro),
+        #10214a
+    );
+    color: var(--blanco);
+}
+
+/* HEADER */
+
+.dashboard-header {
+    max-width: 1100px;
+    margin: 0 auto 35px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.dashboard-title-box h1 {
+    font-size: 38px;
+    margin-bottom: 8px;
+}
+
+.dashboard-title-box p {
+    color: #d6e2ff;
+    font-size: 16px;
+}
+
+/* BOTÓN VOLVER */
+
+.dashboard-back {
+    background: var(--azul-medio);
+    color: var(--blanco);
+    border: none;
+    padding: 13px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    box-shadow: 0px 8px 18px rgba(0,0,0,0.25);
+}
+
+.dashboard-back:hover {
+    background: var(--azul-claro);
+    transform: translateY(-3px);
+}
+
+/* GRID */
+
+.dashboard-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+/* CARD */
+
+.dashboard-card {
+    background: var(--blanco);
+    color: #111827;
+    border-radius: 22px;
+    padding: 28px 22px;
+    cursor: pointer;
+    box-shadow: 0px 12px 28px rgba(0,0,0,0.25);
+    transition: 0.3s ease;
+    border-top: 6px solid var(--azul-medio);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0px 18px 35px rgba(0,0,0,0.35);
+}
+
+.dashboard-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 18px;
+    border-radius: 16px;
+    background: var(--azul-medio);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.dashboard-card h2 {
+    font-size: 23px;
+    margin-bottom: 10px;
+    color: var(--azul-oscuro);
+}
+
+.dashboard-card p {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #4b5563;
+}
+
+/* COLORES POR TARJETA */
+
+.card-empleados {
+    border-top-color: #27ae60;
+}
+
+.card-empleados .dashboard-icon {
+    background: #27ae60;
+}
+
+.card-roles {
+    border-top-color: var(--azul-medio);
+}
+
+.card-roles .dashboard-icon {
+    background: var(--azul-medio);
+}
+
+.card-asistencias {
+    border-top-color: var(--azul-claro);
+}
+
+.card-asistencias .dashboard-icon {
+    background: var(--azul-claro);
+}
+
+.card-nominas {
+    border-top-color: #c0392b;
+}
+
+.card-nominas .dashboard-icon {
+    background: #c0392b;
+}
+
+/* FOOTER */
+
+.dashboard-footer {
+    max-width: 1100px;
+    margin: 35px auto 0 auto;
+    text-align: center;
+    color: #d6e2ff;
+    font-size: 14px;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 1000px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .dashboard-container {
+        padding: 25px 15px;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .dashboard-title-box h1 {
+        font-size: 30px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-back {
+        width: 100%;
+    }
+}

@@ -9,9 +9,9 @@
 
     <title>Portal</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/AsisFrontend/css/style.css">
 
-    <link rel="stylesheet" href="../css/portal.css">
+    <link rel="stylesheet" href="/AsisFrontend/css/portal.css">
 
 </head>
 
@@ -153,7 +153,7 @@ function registrarSalida() {
 function irDashboard() {
 
     window.location.href =
-        "dashboard.php";
+        "/AsisFrontend/pages/Dashboard.php";
 }
 
 function cerrarSesion() {

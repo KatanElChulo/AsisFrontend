@@ -28,7 +28,9 @@
         >
 
     </div>
-
+    <a href="/AsisFrontend/pages/Dashboard.php" class="btn-regresar">
+     Regresar al Dashboard
+</a>
     <br>
 
     <div class="tabla-responsive">

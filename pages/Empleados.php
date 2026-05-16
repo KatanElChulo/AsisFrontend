@@ -29,7 +29,9 @@
         >
 
     </div>
-
+    <a href="/AsisFrontend/pages/Dashboard.php" class="btn-regresar">
+    Regresar al Dashboard
+    </a>
     <br>
 
     <div class="tabla-responsive">
@@ -389,7 +391,7 @@ async function eliminarEmpleado(id) {
     }
 
     await fetch(
-        `http://localhost/AsisProyecto/AsisBackend/api/empleados.php?id=${id}`,
+        "/AsisProyecto/AsisBackend/api/empleados.php?id=${id}",
         {
             method: "DELETE"
         }

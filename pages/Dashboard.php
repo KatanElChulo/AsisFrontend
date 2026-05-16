@@ -10,10 +10,10 @@
     <title>Dashboard Administrador</title>
 
     <!-- CSS GLOBAL -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/AsisFrontend/css/style.css">
 
     <!-- CSS DASHBOARD -->
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="/AsisFrontend/css/dashboard.css">
 
 </head>
 
@@ -110,7 +110,7 @@
             </div>
 
             <h2>
-                Asistencias
+                Asistencias (No implementado)
             </h2>
 
             <p>
@@ -133,7 +133,7 @@
             </div>
 
             <h2>
-                Nóminas
+                Nóminas (No implementado)
             </h2>
 
             <p>
@@ -175,8 +175,8 @@ if (!usuario) {
 
 if (usuario.rol !== "ADMIN") {
 
-    window.location.href =
-        "portal.php";
+     window.location.href =
+        "/AsisFrontend/pages/Portal.php";
 }
 
 /* REDIRECCIONES */
@@ -184,19 +184,19 @@ if (usuario.rol !== "ADMIN") {
 function irEmpleados() {
 
     window.location.href =
-        "empleados.php";
+        "/AsisFrontend/pages/Empleados.php";
 }
 
 function irRoles() {
 
     window.location.href =
-        "roles.php";
+        "/AsisFrontend/pages/Rol.php";
 }
 
 function irAsistencias() {
 
     window.location.href =
-        "asistencias.php";
+        "/AsisFrontend/pages/Asistencias.php";
 }
 
 function irNominas() {
@@ -208,7 +208,7 @@ function irNominas() {
 function volverPortal() {
 
     window.location.href =
-        "portal.php";
+        "/AsisFrontend/pages/Portal.php";
 }
 
 </script>

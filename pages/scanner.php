@@ -9,8 +9,8 @@
 
     <title>Escanear QR</title>
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/qr.css">
+    <link rel="stylesheet" href="/AsisFrontend/css/style.css">
+    <link rel="stylesheet" href="/AsisFrontend/css/qr.css">
 
 </head>
 
@@ -36,34 +36,198 @@
 
 <div id="alerta" class="alerta"></div>
 
-<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 <script>
 
-const usuario =
-    JSON.parse(localStorage.getItem("usuario"));
+document.addEventListener("DOMContentLoaded", function() {
 
-if (!usuario) {
-    window.location.href = "../login.php";
-}
+    const usuario =
+        JSON.parse(localStorage.getItem("usuario"));
 
-const params = new URLSearchParams(window.location.search);
-const tipo = params.get("tipo");
+    if (!usuario) {
+        window.location.href = "/AsisFrontend/index.php";
+        return;
+    }
 
-if (tipo !== "entrada" && tipo !== "salida") {
-    window.location.href = "portal.php";
-}
+    const params =
+        new URLSearchParams(window.location.search);
 
-document.getElementById("tituloScanner").innerText =
-    tipo === "entrada"
-        ? "Registrar Entrada"
-        : "Registrar Salida";
+    const tipo =
+        params.get("tipo");
+
+    if (tipo !== "entrada" && tipo !== "salida") {
+        window.location.href = "/AsisFrontend/pages/Portal.php";
+        return;
+    }
+
+    const tituloScanner =
+        document.getElementById("tituloScanner");
+
+    if (tituloScanner) {
+        tituloScanner.innerText =
+            tipo === "entrada"
+                ? "Registrar Entrada"
+                : "Registrar Salida";
+    }
+
+    let scannerActivo = true;
+
+    const html5QrCode =
+        new Html5Qrcode("reader");
+
+    html5QrCode.start(
+        {
+            facingMode: "environment"
+        },
+        {
+            fps: 10,
+            qrbox: {
+    width: 220,
+    height: 220
+},
+aspectRatio: 1.0
+        },
+        function(decodedText) {
+
+            if (!scannerActivo) return;
+
+            scannerActivo = false;
+
+            html5QrCode.stop()
+            .then(() => {
+                obtenerUbicacion(decodedText);
+            })
+            .catch(() => {
+                obtenerUbicacion(decodedText);
+            });
+        },
+        function(errorMessage) {
+            // No mostrar nada aquí.
+        }
+    )
+    .catch(error => {
+
+        console.error("Error cámara:", error);
+
+        mostrarAlerta(
+            "No se pudo abrir la cámara. Revisa permisos del navegador.",
+            "error"
+        );
+    });
+
+    function obtenerUbicacion(token) {
+
+        if (!navigator.geolocation) {
+            registrarAsistencia(token, null, null);
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            position => {
+
+                registrarAsistencia(
+                    token,
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
+            },
+
+            error => {
+
+                registrarAsistencia(token, null, null);
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    }
+
+    async function registrarAsistencia(token, latitud, longitud) {
+
+        try {
+
+            const res = await fetch(
+                "/AsisBackend/api/asistencia_qr.php",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        empleado_id: usuario.id,
+                        tipo: tipo,
+                        token: token,
+                        latitud: latitud,
+                        longitud: longitud
+                    })
+                }
+            );
+
+            const texto =
+                await res.text();
+
+            console.log(texto);
+
+            const data =
+                JSON.parse(texto);
+
+            if (data.success) {
+
+                mostrarAlerta(data.message, "success");
+
+                setTimeout(() => {
+                    window.location.href =
+                        "/AsisFrontend/pages/Portal.php";
+                }, 1500);
+
+            } else {
+
+                mostrarAlerta(data.message, "error");
+
+                setTimeout(() => {
+                    window.location.href =
+                        "/AsisFrontend/pages/Portal.php";
+                }, 2000);
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            mostrarAlerta(
+                "Error al registrar asistencia",
+                "error"
+            );
+
+            setTimeout(() => {
+                window.location.href =
+                    "/AsisFrontend/pages/Portal.php";
+            }, 2000);
+        }
+    }
+
+});
 
 function mostrarAlerta(mensaje, tipoAlerta = "success") {
 
-    const alerta = document.getElementById("alerta");
+    const alerta =
+        document.getElementById("alerta");
 
-    alerta.innerText = mensaje;
+    if (!alerta) {
+        alert(mensaje);
+        return;
+    }
+
+    alerta.innerText =
+        mensaje;
 
     alerta.classList.remove("success", "error");
     alerta.classList.add("mostrar", tipoAlerta);
@@ -73,152 +237,9 @@ function mostrarAlerta(mensaje, tipoAlerta = "success") {
     }, 3000);
 }
 
-let scannerActivo = true;
-
-const html5QrCode =
-    new Html5Qrcode("reader");
-
-Html5Qrcode.getCameras()
-.then(cameras => {
-
-    if (!cameras || cameras.length === 0) {
-        mostrarAlerta("No se encontró cámara", "error");
-        return;
-    }
-
-    const camaraTrasera =
-        cameras.find(camera =>
-            camera.label.toLowerCase().includes("back") ||
-            camera.label.toLowerCase().includes("rear")
-        );
-
-    const cameraId =
-        camaraTrasera ? camaraTrasera.id : cameras[0].id;
-
-    html5QrCode.start(
-        cameraId,
-        {
-            fps: 10,
-            qrbox: {
-                width: 250,
-                height: 250
-            }
-        },
-        onScanSuccess
-    );
-
-})
-.catch(error => {
-    console.error(error);
-    mostrarAlerta("No se pudo abrir la cámara", "error");
-});
-
-function onScanSuccess(decodedText) {
-
-    if (!scannerActivo) return;
-
-    scannerActivo = false;
-
-    html5QrCode.stop()
-    .then(() => {
-
-        obtenerUbicacion(decodedText);
-
-    })
-    .catch(() => {
-
-        obtenerUbicacion(decodedText);
-    });
-}
-
-function obtenerUbicacion(token) {
-
-    if (!navigator.geolocation) {
-
-        registrarAsistencia(token, null, null);
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-
-        position => {
-
-            registrarAsistencia(
-                token,
-                position.coords.latitude,
-                position.coords.longitude
-            );
-        },
-
-        error => {
-
-            registrarAsistencia(token, null, null);
-        },
-
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0
-        }
-    );
-}
-
-async function registrarAsistencia(token, latitud, longitud) {
-
-    try {
-
-        const res = await fetch(
-            "http://localhost/AsisProyecto/AsisBackend/api/asistencia_qr.php",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    empleado_id: usuario.id,
-                    tipo: tipo,
-                    token: token,
-                    latitud: latitud,
-                    longitud: longitud
-                })
-            }
-        );
-
-        const data = await res.json();
-
-        if (data.success) {
-
-            mostrarAlerta(data.message, "success");
-
-            setTimeout(() => {
-                window.location.href = "portal.php";
-            }, 1500);
-
-        } else {
-
-            mostrarAlerta(data.message, "error");
-
-            setTimeout(() => {
-                window.location.href = "portal.php";
-            }, 2000);
-        }
-
-    } catch (error) {
-
-        console.error(error);
-
-        mostrarAlerta("Error al registrar asistencia", "error");
-
-        setTimeout(() => {
-            window.location.href = "portal.php";
-        }, 2000);
-    }
-}
-
 function volverPortal() {
-    window.location.href = "portal.php";
+    window.location.href =
+        "/AsisFrontend/pages/Portal.php";
 }
 
 </script>

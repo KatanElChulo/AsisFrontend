@@ -202,7 +202,7 @@ function irAsistencias() {
 function irNominas() {
 
     window.location.href =
-        "nominas.php";
+        "/AsisFrontend/pages/Nominas.php";
 }
 
 function volverPortal() {

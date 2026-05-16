@@ -164,7 +164,7 @@ function mostrarAlerta(mensaje, tipo = "success") {
 async function cargarRoles() {
 
     const respuesta = await fetch(
-        "http://localhost/AsisProyecto/AsisBackend/api/roles.php"
+        "/AsisProyecto/AsisBackend/api/roles.php"
     );
 
     const data = await respuesta.json();
@@ -186,7 +186,7 @@ async function cargarRoles() {
 async function cargarEmpleados() {
 
     const respuesta = await fetch(
-        "http://localhost/AsisProyecto/AsisBackend/api/empleados.php"
+        "/AsisProyecto/AsisBackend/api/empleados.php"
     );
 
     const data = await respuesta.json();
@@ -304,7 +304,7 @@ async function crearEmpleado() {
     };
 
     let url =
-        "http://localhost/AsisProyecto/AsisBackend/api/empleados.php";
+        "/AsisProyecto/AsisBackend/api/empleados.php";
 
     let method = "POST";
 
@@ -343,7 +343,7 @@ async function crearEmpleado() {
 async function editarEmpleado(id) {
 
     const respuesta = await fetch(
-        `http://localhost/AsisProyecto/AsisBackend/api/empleados.php?id=${id}`
+        `/AsisProyecto/AsisBackend/api/empleados.php?id=${id}`
     );
 
     const emp = await respuesta.json();

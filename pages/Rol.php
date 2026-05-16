@@ -122,7 +122,7 @@ async function cargarRoles() {
     try {
 
         const res = await fetch(
-            "http://localhost/AsisProyecto/AsisBackend/api/roles.php"
+            "/AsisProyecto/AsisBackend/api/roles.php"
         );
 
         const data = await res.json();
@@ -188,7 +188,7 @@ async function guardarRol() {
     }
 
     let url =
-        "http://localhost/AsisProyecto/AsisBackend/api/roles.php";
+        "/AsisProyecto/AsisBackend/api/roles.php";
 
     let method = "POST";
 
@@ -226,7 +226,7 @@ async function guardarRol() {
 async function editarRol(id) {
 
     const res = await fetch(
-        `http://localhost/AsisProyecto/AsisBackend/api/roles.php?id=${id}`
+        `/AsisProyecto/AsisBackend/api/roles.php?id=${id}`
     );
 
     const rol = await res.json();
@@ -251,7 +251,7 @@ async function eliminarRol(id) {
     try {
 
         const res = await fetch(
-            `http://localhost/AsisProyecto/AsisBackend/api/roles.php?id=${id}`,
+            `/AsisProyecto/AsisBackend/api/roles.php?id=${id}`,
             { method: "DELETE" }
         );
 

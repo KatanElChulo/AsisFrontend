@@ -19,87 +19,125 @@
 
 <div class="portal-container">
 
-    <!-- TITULO -->
+    <section class="portal-card">
 
-    <h1
-        class="portal-title"
-        id="bienvenida">
-    </h1>
+        <div class="portal-header">
 
-    <!-- SUBTITULO -->
+            <div class="portal-user-icon">
+                <span></span>
+            </div>
 
-    <p
-        class="portal-subtitle"
-        id="rolUsuario">
-    </p>
+            <!-- TITULO -->
 
-    <!-- BOTONES -->
+            <h1
+                class="portal-title"
+                id="bienvenida">
+            </h1>
 
-    <div class="portal-buttons">
+            <!-- SUBTITULO -->
 
-        <!-- ENTRADA -->
+            <p
+                class="portal-subtitle"
+                id="rolUsuario">
+            </p>
 
-        <button
-            class="portal-btn portal-entrada"
-            onclick="registrarEntrada()"
-        >
+            <div class="portal-divider"></div>
 
-            Registrar Entrada
+        </div>
 
-            <span>
-                Escanea el QR para registrar entrada
-            </span>
+        <!-- BOTONES -->
 
-        </button>
+        <div class="portal-buttons">
 
-        <!-- SALIDA -->
+            <!-- ENTRADA -->
 
-        <button
-            class="portal-btn portal-salida"
-            onclick="registrarSalida()"
-        >
+            <button
+                class="portal-btn portal-entrada"
+                onclick="registrarEntrada()"
+            >
 
-            Registrar Salida
+                <span class="portal-icon icon-entrada"></span>
 
-            <span>
-                Escanea el QR para registrar salida
-            </span>
+                <span class="portal-text">
+                    Registrar Entrada
 
-        </button>
+                    <small>
+                        Escanea el QR para registrar entrada
+                    </small>
+                </span>
 
-        <!-- ADMIN -->
+                <span class="portal-arrow"></span>
 
-        <button
-            id="btnAdmin"
-            class="portal-btn portal-admin"
-            style="display:none;"
-            onclick="irDashboard()"
-        >
+            </button>
 
-            Dashboard Administrador
+            <!-- SALIDA -->
 
-            <span>
-                Administrar sistema y CRUDs
-            </span>
+            <button
+                class="portal-btn portal-salida"
+                onclick="registrarSalida()"
+            >
 
-        </button>
+                <span class="portal-icon icon-salida"></span>
 
-        <!-- LOGOUT -->
+                <span class="portal-text">
+                    Registrar Salida
 
-        <button
-            class="portal-btn portal-logout"
-            onclick="cerrarSesion()"
-        >
+                    <small>
+                        Escanea el QR para registrar salida
+                    </small>
+                </span>
 
-            Cerrar sesión
+                <span class="portal-arrow"></span>
 
-            <span>
-                Salir del sistema
-            </span>
+            </button>
 
-        </button>
+            <!-- ADMIN -->
 
-    </div>
+            <button
+                id="btnAdmin"
+                class="portal-btn portal-admin"
+                style="display:none;"
+                onclick="irDashboard()"
+            >
+
+                <span class="portal-icon icon-admin"></span>
+
+                <span class="portal-text">
+                    Dashboard Administrador
+
+                    <small>
+                        Administrar sistema y CRUDs
+                    </small>
+                </span>
+
+                <span class="portal-arrow"></span>
+
+            </button>
+
+            <!-- LOGOUT -->
+
+            <button
+                class="portal-btn portal-logout"
+                onclick="cerrarSesion()"
+            >
+
+                <span class="portal-icon icon-logout"></span>
+
+                <span class="portal-text">
+                    Cerrar sesión
+
+                    <small>
+                        Salir del sistema
+                    </small>
+                </span>
+
+                <span class="portal-arrow"></span>
+
+            </button>
+
+        </div>
+
+    </section>
 
 </div>
 
@@ -133,7 +171,7 @@ document.getElementById("rolUsuario").innerText =
 if (usuario.rol === "ADMIN") {
 
     document.getElementById("btnAdmin")
-        .style.display = "block";
+        .style.display = "flex";
 }
 
 /* FUNCIONES */

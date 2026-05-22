@@ -7,46 +7,117 @@
 </head>
 <body>
 
-    <h1>Gestión de Nóminas</h1>
-
-    <div class="acciones-superiores">
-        <div class="grupo-botones">
-            <button class="btn btn-agregar" onclick="abrirModal()">+ Nueva Nómina Manual</button>
-            <button class="btn btn-generar" onclick="abrirModalGenerar()">Generar Nómina Automática</button>
+    <header class="encabezado">
+        <div>
+            <h1>Nóminas</h1>
+            <p>Control semanal automático de pagos, faltas y días trabajados</p>
         </div>
 
-        <input type="text" id="busqueda" placeholder="Buscar nómina...">
-    </div>
+        <button class="btn btn-cerrar-semana" onclick="cerrarSemana()">
+            Cerrar semana y guardar nóminas
+        </button>
+    </header>
 
     <div id="alerta" class="alerta"></div>
 
-    <div class="tabla-contenedor">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Empleado</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
-                    <th>Días Trabajados</th>
-                    <th>Faltas</th>
-                    <th>Sueldo Diario</th>
-                    <th>Total Pago</th>
-                    <th>Fecha Generación</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+    <!-- RESUMEN SEMANA ACTUAL -->
+    <section class="panel-resumen">
+        <div class="card-resumen">
+            <span>Semana actual</span>
+            <strong id="rangoSemana">Cargando...</strong>
+        </div>
 
-            <tbody id="tablaNominas">
-                <!-- Aquí se cargan las nóminas con JS -->
-            </tbody>
-        </table>
-    </div>
+        <div class="card-resumen">
+            <span>Días hábiles</span>
+            <strong id="diasHabiles">0</strong>
+        </div>
 
-    <!-- MODAL PARA CREAR / EDITAR NÓMINA MANUAL -->
+        <div class="card-resumen">
+            <span>Días transcurridos</span>
+            <strong id="diasTranscurridos">0</strong>
+        </div>
+
+        <div class="card-resumen">
+            <span>Actualización</span>
+            <strong id="ultimaActualizacion">--:--:--</strong>
+        </div>
+    </section>
+
+    <!-- NÓMINA ACTUAL EN VIVO -->
+    <section class="seccion">
+        <div class="seccion-header">
+            <div>
+                <h2>Nómina semana actual en vivo</h2>
+                <p>Se calcula automáticamente con las asistencias registradas de lunes a viernes.</p>
+            </div>
+
+            <input type="text" id="busquedaActual" placeholder="Buscar empleado...">
+        </div>
+
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Empleado</th>
+                        <th>Empleado</th>
+                        <th>Días Trabajados</th>
+                        <th>Faltas</th>
+                        <th>Sueldo Diario</th>
+                        <th>Pago Actual</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tablaNominaActual">
+                    <tr>
+                        <td colspan="7">Cargando nómina actual...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- HISTORIAL DE NÓMINAS CERRADAS -->
+    <section class="seccion">
+        <div class="seccion-header">
+            <div>
+                <h2>Historial de nóminas cerradas</h2>
+                <p>Aquí aparecen las semanas guardadas al cerrar nómina.</p>
+            </div>
+
+            <input type="text" id="busquedaHistorial" placeholder="Buscar historial...">
+        </div>
+
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Nómina</th>
+                        <th>Empleado</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Días Trabajados</th>
+                        <th>Faltas</th>
+                        <th>Sueldo Diario</th>
+                        <th>Total Pago</th>
+                        <th>Generada</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tablaHistorialNominas">
+                    <tr>
+                        <td colspan="10">Cargando historial...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- MODAL EDITAR NÓMINA HISTORIAL -->
     <div id="modalNomina" class="modal">
         <div class="modal-contenido">
-            <h2 id="tituloModal">Nueva Nómina Manual</h2>
+            <h2>Editar Nómina</h2>
 
             <form id="formNomina">
                 <input type="hidden" id="nomina_id">
@@ -70,38 +141,8 @@
                 <input type="number" step="0.01" id="sueldo_diario" min="0" required>
 
                 <div class="modal-botones">
-                    <button type="submit" class="btn btn-guardar">Guardar</button>
+                    <button type="submit" class="btn btn-guardar">Guardar cambios</button>
                     <button type="button" class="btn btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL PARA GENERAR NÓMINA AUTOMÁTICA -->
-    <div id="modalGenerar" class="modal">
-        <div class="modal-contenido">
-            <h2>Generar Nómina Automática</h2>
-
-            <form id="formGenerarNomina">
-                <label>Empleado ID</label>
-                <input type="number" id="generar_empleado_id" min="1" required>
-
-                <label>Fecha inicio</label>
-                <input type="date" id="generar_fecha_inicio" required>
-
-                <label>Fecha fin</label>
-                <input type="date" id="generar_fecha_fin" required>
-
-                <div class="info-generar">
-                    <p>
-                        El sistema calculará automáticamente los días trabajados,
-                        faltas, sueldo diario y total a pagar con base en la tabla de asistencias.
-                    </p>
-                </div>
-
-                <div class="modal-botones">
-                    <button type="submit" class="btn btn-guardar">Generar</button>
-                    <button type="button" class="btn btn-cancelar" onclick="cerrarModalGenerar()">Cancelar</button>
                 </div>
             </form>
         </div>

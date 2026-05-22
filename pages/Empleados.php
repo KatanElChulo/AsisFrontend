@@ -29,7 +29,7 @@
         >
 
     </div>
-    <a href="/AsisFrontend/pages/Dashboard.php" class="btn-regresar">
+    <a href="Dashboard.php" class="btn-regresar">
     Regresar al Dashboard
     </a>
     <br>

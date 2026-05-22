@@ -10,10 +10,10 @@
     <title>Dashboard Administrador</title>
 
     <!-- CSS GLOBAL -->
-    <link rel="stylesheet" href="/AsisFrontend/css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
     <!-- CSS DASHBOARD -->
-    <link rel="stylesheet" href="/AsisFrontend/css/dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 
 </head>
 
@@ -176,7 +176,7 @@ if (!usuario) {
 if (usuario.rol !== "ADMIN") {
 
      window.location.href =
-        "/AsisFrontend/pages/Portal.php";
+        "AsisFrontend/pages/Dashboard.php";
 }
 
 /* REDIRECCIONES */
@@ -184,31 +184,31 @@ if (usuario.rol !== "ADMIN") {
 function irEmpleados() {
 
     window.location.href =
-        "/AsisFrontend/pages/Empleados.php";
+        "Empleados.php";
 }
 
 function irRoles() {
 
     window.location.href =
-        "/AsisFrontend/pages/Rol.php";
+        "Rol.php";
 }
 
 function irAsistencias() {
 
     window.location.href =
-        "/AsisFrontend/pages/Asistencias.php";
+        "Asistencias.php";
 }
 
 function irNominas() {
 
     window.location.href =
-        "/AsisFrontend/pages/Nominas.php";
+        "Nominas.php";
 }
 
 function volverPortal() {
 
     window.location.href =
-        "/AsisFrontend/pages/Portal.php";
+        "Portal.php";
 }
 
 </script>

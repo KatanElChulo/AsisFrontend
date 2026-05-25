@@ -235,21 +235,18 @@ form.addEventListener("submit", async function(e) {
     try {
 
         const respuesta = await fetch(
-            "../AsisBackend/api/login.php",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    correo: correo,
-                    password: password
-                })
-            }
-        );
+    "../AsisBackend/api/login.php",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            correo: correo,
+            password: password
+        })
+    }
+);
 
         const data = await respuesta.json();
 

@@ -186,7 +186,7 @@ async function cargarRoles() {
 async function cargarEmpleados() {
 
     const respuesta = await fetch(
-        "/AsisProyecto/AsisBackend/api/empleados.php"
+        "../AsisBackend/api/empleados.php"
     );
 
     const data = await respuesta.json();

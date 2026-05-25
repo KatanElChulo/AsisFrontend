@@ -29,9 +29,11 @@
         >
 
     </div>
+
     <a href="Dashboard.php" class="btn-regresar">
-    Regresar al Dashboard
+        Regresar al Dashboard
     </a>
+
     <br>
 
     <div class="tabla-responsive">
@@ -60,14 +62,7 @@
 
     </div>
 
-    <!-- ALERTA -->
-
-    <div id="alerta" class="alerta">
-</div>
-
-    
-
-    <!-- MODAL -->
+    <div id="alerta" class="alerta"></div>
 
     <div id="modalEmpleado" class="modal">
 
@@ -81,9 +76,7 @@
                 Agregar empleado
             </h2>
 
-            <select id="rol_id">
-
-            </select>
+            <select id="rol_id"></select>
 
             <input type="text" id="nombre" placeholder="Nombre">
 
@@ -99,7 +92,7 @@
 
             <br><br>
 
-            <button class="btn-guardar" onclick="crearEmpleado()">
+            <button class="btn-guardar" onclick="guardarEmpleado()">
                 Guardar empleado
             </button>
 
@@ -109,8 +102,10 @@
 
 <script>
 
-let editando = false;
+const API_EMPLEADOS = "../../AsisBackend/api/empleados.php";
+const API_ROLES = "../../AsisBackend/api/roles.php";
 
+let editando = false;
 let empleadoId = null;
 
 function abrirModal() {
@@ -122,23 +117,18 @@ function cerrarModal() {
 
     document.getElementById("modalEmpleado").style.display = "none";
 
+    document.getElementById("rol_id").value = "";
     document.getElementById("nombre").value = "";
-
     document.getElementById("apellido_paterno").value = "";
-
     document.getElementById("apellido_materno").value = "";
-
     document.getElementById("correo").value = "";
-
     document.getElementById("telefono").value = "";
-
     document.getElementById("sueldo_diario").value = "";
 
     document.getElementById("tituloModal").innerText =
         "Agregar empleado";
 
     editando = false;
-
     empleadoId = null;
 }
 
@@ -148,10 +138,8 @@ function mostrarAlerta(mensaje, tipo = "success") {
 
     alerta.innerText = mensaje;
 
-    // limpiar clases base
     alerta.classList.remove("success", "error");
 
-    // agregar clases correctas
     alerta.classList.add("mostrar", tipo);
 
     setTimeout(() => {
@@ -163,79 +151,105 @@ function mostrarAlerta(mensaje, tipo = "success") {
 
 async function cargarRoles() {
 
-    const respuesta = await fetch(
-        "/AsisProyecto/AsisBackend/api/roles.php"
-    );
+    try {
 
-    const data = await respuesta.json();
+        const respuesta = await fetch(API_ROLES);
 
-    let html = "";
+        const texto = await respuesta.text();
+        console.log("Respuesta roles:", texto);
 
-    data.forEach(rol => {
+        const data = JSON.parse(texto);
 
-        html += `
-            <option value="${rol.id}">
-                ${rol.nombre}
-            </option>
-        `;
-    });
+        let html = "";
 
-    document.getElementById("rol_id").innerHTML = html;
+        data.forEach(rol => {
+
+            html += `
+                <option value="${rol.id}">
+                    ${rol.nombre}
+                </option>
+            `;
+        });
+
+        document.getElementById("rol_id").innerHTML = html;
+
+    } catch (error) {
+
+        console.error("Error al cargar roles:", error);
+
+        mostrarAlerta(
+            "Error al cargar roles",
+            "error"
+        );
+    }
 }
 
 async function cargarEmpleados() {
 
-    const respuesta = await fetch(
-        "../AsisBackend/api/empleados.php"
-    );
+    try {
 
-    const data = await respuesta.json();
+        const respuesta = await fetch(API_EMPLEADOS);
 
-    let html = "";
+        const texto = await respuesta.text();
+        console.log("Respuesta empleados:", texto);
 
-    data.forEach(emp => {
+        const data = JSON.parse(texto);
 
-        html += `
-            <tr>
+        let html = "";
 
-                <td>${emp.id}</td>
+        data.forEach(emp => {
 
-                <td>
-                    ${emp.nombre}
-                    ${emp.apellido_paterno}
-                </td>
+            html += `
+                <tr>
 
-                <td>${emp.rol_nombre}</td>
+                    <td>${emp.id}</td>
 
-                <td>${emp.correo}</td>
+                    <td>
+                        ${emp.nombre ?? ""}
+                        ${emp.apellido_paterno ?? ""}
+                    </td>
 
-                <td>${emp.telefono}</td>
+                    <td>${emp.rol_nombre ?? ""}</td>
 
-                <td>$${emp.sueldo_diario}</td>
+                    <td>${emp.correo ?? ""}</td>
 
-                <td>
+                    <td>${emp.telefono ?? ""}</td>
 
-                    <button
-                        class="btn-editar"
-                        onclick="editarEmpleado(${emp.id})"
-                    >
-                        Editar
-                    </button>
+                    <td>$${emp.sueldo_diario ?? "0.00"}</td>
 
-                    <button
-                        class="btn-eliminar"
-                        onclick="eliminarEmpleado(${emp.id})"
-                    >
-                        Eliminar
-                    </button>
+                    <td>
 
-                </td>
+                        <button
+                            class="btn-editar"
+                            onclick="editarEmpleado(${emp.id})"
+                        >
+                            Editar
+                        </button>
 
-            </tr>
-        `;
-    });
+                        <button
+                            class="btn-eliminar"
+                            onclick="eliminarEmpleado(${emp.id})"
+                        >
+                            Eliminar
+                        </button>
 
-    document.getElementById("tablaEmpleados").innerHTML = html;
+                    </td>
+
+                </tr>
+            `;
+        });
+
+        document.getElementById("tablaEmpleados").innerHTML = html;
+
+    } catch (error) {
+
+        console.error("Error al cargar empleados:", error);
+
+        mostrarAlerta(
+            "Error al cargar empleados",
+            "error"
+        );
+    }
 }
 
 function buscarEmpleado() {
@@ -253,20 +267,19 @@ function buscarEmpleado() {
         let texto =
             fila.innerText.toLowerCase();
 
-        if(texto.includes(filtro)) {
+        if (texto.includes(filtro)) {
 
             fila.style.display = "";
-        }
-        else {
+        } else {
 
             fila.style.display = "none";
         }
     });
 }
 
-async function crearEmpleado() {
+async function guardarEmpleado() {
 
-    if(
+    if (
         document.getElementById("nombre").value === "" ||
         document.getElementById("correo").value === "" ||
         document.getElementById("telefono").value === ""
@@ -283,100 +296,114 @@ async function crearEmpleado() {
     const empleado = {
 
         rol_id: document.getElementById("rol_id").value,
-
         nombre: document.getElementById("nombre").value,
-
         apellido_paterno: document.getElementById("apellido_paterno").value,
-
         apellido_materno: document.getElementById("apellido_materno").value,
-
         correo: document.getElementById("correo").value,
-
         password: "123456",
-
         telefono: document.getElementById("telefono").value,
-
         sueldo_diario: document.getElementById("sueldo_diario").value,
-
         horario_entrada: "08:00:00",
-
         horario_salida: "17:00:00"
     };
 
-    let url =
-        "/AsisProyecto/AsisBackend/api/empleados.php";
-
+    let url = API_EMPLEADOS;
     let method = "POST";
 
-    if(editando) {
+    if (editando) {
 
         url += `?id=${empleadoId}`;
-
         method = "PUT";
     }
 
-    await fetch(url, {
+    try {
 
-        method: method,
+        const respuesta = await fetch(url, {
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            method: method,
 
-        body: JSON.stringify(empleado)
-    });
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    if(editando) {
+            body: JSON.stringify(empleado)
+        });
 
-        mostrarAlerta("Empleado actualizado");
+        const texto = await respuesta.text();
+        console.log("Respuesta guardar empleado:", texto);
+
+        if (editando) {
+
+            mostrarAlerta("Empleado actualizado");
+        } else {
+
+            mostrarAlerta("Empleado agregado");
+        }
+
+        cerrarModal();
+
+        cargarEmpleados();
+
+    } catch (error) {
+
+        console.error("Error al guardar empleado:", error);
+
+        mostrarAlerta(
+            "Error al guardar empleado",
+            "error"
+        );
     }
-    else {
-
-        mostrarAlerta("Empleado agregado");
-    }
-
-    cerrarModal();
-
-    cargarEmpleados();
 }
 
 async function editarEmpleado(id) {
 
-    const respuesta = await fetch(
-        `/AsisProyecto/AsisBackend/api/empleados.php?id=${id}`
-    );
+    try {
 
-    const emp = await respuesta.json();
+        const respuesta = await fetch(`${API_EMPLEADOS}?id=${id}`);
 
-    abrirModal();
+        const texto = await respuesta.text();
+        console.log("Respuesta editar empleado:", texto);
 
-    editando = true;
+        const emp = JSON.parse(texto);
 
-    empleadoId = id;
+        abrirModal();
 
-    document.getElementById("tituloModal").innerText =
-        "Editar empleado";
+        editando = true;
+        empleadoId = id;
 
-    document.getElementById("rol_id").value =
-        emp.rol_id;
+        document.getElementById("tituloModal").innerText =
+            "Editar empleado";
 
-    document.getElementById("nombre").value =
-        emp.nombre;
+        document.getElementById("rol_id").value =
+            emp.rol_id;
 
-    document.getElementById("apellido_paterno").value =
-        emp.apellido_paterno;
+        document.getElementById("nombre").value =
+            emp.nombre;
 
-    document.getElementById("apellido_materno").value =
-        emp.apellido_materno;
+        document.getElementById("apellido_paterno").value =
+            emp.apellido_paterno;
 
-    document.getElementById("correo").value =
-        emp.correo;
+        document.getElementById("apellido_materno").value =
+            emp.apellido_materno;
 
-    document.getElementById("telefono").value =
-        emp.telefono;
+        document.getElementById("correo").value =
+            emp.correo;
 
-    document.getElementById("sueldo_diario").value =
-        emp.sueldo_diario;
+        document.getElementById("telefono").value =
+            emp.telefono;
+
+        document.getElementById("sueldo_diario").value =
+            emp.sueldo_diario;
+
+    } catch (error) {
+
+        console.error("Error al obtener empleado:", error);
+
+        mostrarAlerta(
+            "Error al obtener empleado",
+            "error"
+        );
+    }
 }
 
 async function eliminarEmpleado(id) {
@@ -385,25 +412,39 @@ async function eliminarEmpleado(id) {
         "¿Seguro que deseas eliminar este empleado?"
     );
 
-    if(!confirmar) {
+    if (!confirmar) {
 
         return;
     }
 
-    await fetch(
-        "/AsisProyecto/AsisBackend/api/empleados.php?id=${id}",
-        {
-            method: "DELETE"
-        }
-    );
+    try {
 
-    mostrarAlerta("Empleado eliminado");
+        const respuesta = await fetch(
+            `${API_EMPLEADOS}?id=${id}`,
+            {
+                method: "DELETE"
+            }
+        );
 
-    cargarEmpleados();
+        const texto = await respuesta.text();
+        console.log("Respuesta eliminar empleado:", texto);
+
+        mostrarAlerta("Empleado eliminado");
+
+        cargarEmpleados();
+
+    } catch (error) {
+
+        console.error("Error al eliminar empleado:", error);
+
+        mostrarAlerta(
+            "Error al eliminar empleado",
+            "error"
+        );
+    }
 }
 
 cargarRoles();
-
 cargarEmpleados();
 
 </script>

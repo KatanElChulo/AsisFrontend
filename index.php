@@ -11,7 +11,7 @@
         Sistema de Control de Asistencia
     </title>
 
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="AsisFrontend\css\login.css">
 
 </head>
 

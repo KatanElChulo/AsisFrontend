@@ -235,7 +235,7 @@ form.addEventListener("submit", async function(e) {
     try {
 
         const respuesta = await fetch(
-            "http://localhost/AsisProyecto/AsisBackend/api/login.php",
+            "../AsisBackend/api/login.php",
             {
                 method: "POST",
 

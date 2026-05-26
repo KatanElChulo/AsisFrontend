@@ -9,8 +9,8 @@
 
     <title>QR Asistencia</title>
 
-   <link rel="stylesheet" href="/AsisFrontend/css/style.css">
-    <link rel="stylesheet" href="/AsisFrontend/css/generarQr.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/generarQr.css">
 
 </head>
 
@@ -20,7 +20,7 @@
 
     <h1>QR de Asistencia</h1>
 
-    <p>Este c��digo se actualiza cada 30 segundos</p>
+    <p>Este código se actualiza cada 30 segundos</p>
 
     <div class="qr-container">
         <div id="qrcode"></div>
@@ -38,6 +38,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
+
+const API_GENERAR_QR = "../../AsisBackend/api/generar_qr.php";
 
 let tiempo = 30;
 
@@ -59,13 +61,16 @@ async function generarQR() {
 
     try {
 
-        const res = await fetch(
-            "/AsisBackend/api/generar_qr.php"
-        );
+        const res = await fetch(API_GENERAR_QR);
 
         const texto = await res.text();
 
         console.log("Respuesta generar_qr.php:", texto);
+
+        if (!texto) {
+            mostrarAlerta("El servidor respondió vacío", "error");
+            return;
+        }
 
         const data = JSON.parse(texto);
 

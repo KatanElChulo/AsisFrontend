@@ -1,6 +1,7 @@
-const API_HISTORIAL = "http://localhost/AsisProyecto/AsisBackend/api/nominas/index.php";
-const API_SEMANA_ACTUAL = "http://localhost/AsisProyecto/AsisBackend/api/nominas/semana_actual.php";
-const API_CERRAR_SEMANA = "http://localhost/AsisProyecto/AsisBackend/api/nominas/cerrar_semana.php";
+const API_HISTORIAL = "../../AsisBackend/api/nominas/index.php";
+const API_SEMANA_ACTUAL = "../../AsisBackend/api/nominas/semana_actual.php";
+const API_CERRAR_SEMANA = "../../AsisBackend/api/nominas/cerrar_semana.php";
+
 const tablaNominaActual = document.getElementById("tablaNominaActual");
 const tablaHistorialNominas = document.getElementById("tablaHistorialNominas");
 

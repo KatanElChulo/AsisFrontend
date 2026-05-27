@@ -4,101 +4,132 @@
 
     <meta charset="UTF-8">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Empleados</title>
 
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/crud.css?v=2">
 
 </head>
 
 <body>
 
-    <h1>Lista de empleados</h1>
+<main class="crud-page">
 
-    <div class="acciones-superiores">
+    <section class="crud-panel">
 
-        <button class="btn-agregar" onclick="abrirModal()">
-            Agregar empleado
-        </button>
+        <header class="crud-header">
 
-        <input
-            type="text"
-            id="busqueda"
-            placeholder="Buscar empleado..."
-            onkeyup="buscarEmpleado()"
-        >
+            <div class="crud-title-box">
+                <span class="crud-header-icon"></span>
 
-    </div>
+                <div>
+                    <h1>Lista de empleados</h1>
+                    <p>Gestiona y administra los registros de empleados del sistema.</p>
+                </div>
+            </div>
 
-    <a href="Dashboard.php" class="btn-regresar">
-        Regresar al Dashboard
-    </a>
+            <div class="crud-user-box">
+                <div class="crud-avatar-admin">AD</div>
+                <div>
+                    <strong>Admin</strong>
+                    <span>Administrador</span>
+                </div>
+            </div>
 
-    <br>
+        </header>
 
-    <div class="tabla-responsive">
+        <div class="acciones-superiores">
 
-        <table>
+            <div class="acciones-botones">
+                <button class="btn-agregar" onclick="abrirModal()">
+                    Agregar empleado
+                </button>
 
-            <thead>
+                <a href="Dashboard.php" class="btn-regresar">
+                    Regresar al Dashboard
+                </a>
+            </div>
 
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Rol</th>
-                    <th>Correo</th>
-                    <th>Teléfono</th>
-                    <th>Sueldo</th>
-                    <th>Acciones</th>
-                </tr>
-
-            </thead>
-
-            <tbody id="tablaEmpleados">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <div id="alerta" class="alerta"></div>
-
-    <div id="modalEmpleado" class="modal">
-
-        <div class="modal-contenido">
-
-            <span class="cerrar" onclick="cerrarModal()">
-                &times;
-            </span>
-
-            <h2 id="tituloModal">
-                Agregar empleado
-            </h2>
-
-            <select id="rol_id"></select>
-
-            <input type="text" id="nombre" placeholder="Nombre">
-
-            <input type="text" id="apellido_paterno" placeholder="Apellido paterno">
-
-            <input type="text" id="apellido_materno" placeholder="Apellido materno">
-
-            <input type="email" id="correo" placeholder="Correo">
-
-            <input type="text" id="telefono" placeholder="Teléfono">
-
-            <input type="number" id="sueldo_diario" placeholder="Sueldo diario">
-
-            <br><br>
-
-            <button class="btn-guardar" onclick="guardarEmpleado()">
-                Guardar empleado
-            </button>
+            <div class="busqueda-box">
+                <input
+                    type="text"
+                    id="busqueda"
+                    placeholder="Buscar empleado..."
+                    onkeyup="buscarEmpleado()"
+                >
+            </div>
 
         </div>
 
+        <div class="tabla-responsive">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Sueldo</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="tablaEmpleados">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+<div id="alerta" class="alerta"></div>
+
+<div id="modalEmpleado" class="modal">
+
+    <div class="modal-contenido">
+
+        <span class="cerrar" onclick="cerrarModal()">
+            &times;
+        </span>
+
+        <h2 id="tituloModal">
+            Agregar empleado
+        </h2>
+
+        <select id="rol_id"></select>
+
+        <input type="text" id="nombre" placeholder="Nombre">
+
+        <input type="text" id="apellido_paterno" placeholder="Apellido paterno">
+
+        <input type="text" id="apellido_materno" placeholder="Apellido materno">
+
+        <input type="email" id="correo" placeholder="Correo">
+
+        <input type="text" id="telefono" placeholder="Teléfono">
+
+        <input type="number" id="sueldo_diario" placeholder="Sueldo diario">
+
+        <br><br>
+
+        <button class="btn-guardar" onclick="guardarEmpleado()">
+            Guardar empleado
+        </button>
+
     </div>
+
+</div>
 
 <script>
 

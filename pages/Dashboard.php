@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <!-- CSS DASHBOARD -->
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard.css?v=2">
 
 </head>
 
@@ -21,138 +21,123 @@
 
 <div class="dashboard-container">
 
-    <!-- HEADER -->
+    <section class="dashboard-panel">
 
-    <div class="dashboard-header">
+        <!-- HEADER -->
 
-        <div class="dashboard-title-box">
+        <div class="dashboard-header">
 
-            <h1>
-                Dashboard Administrador
-            </h1>
+            <div class="dashboard-title-wrap">
 
-            <p>
-                Gestiona el sistema DorayPaty
-            </p>
+                <div class="dashboard-main-icon" aria-hidden="true">
+                    <span></span>
+                </div>
 
-        </div>
+                <div class="dashboard-title-box">
 
-        <button
-            class="dashboard-back"
-            onclick="volverPortal()"
-        >
+                    <h1>
+                        Dashboard Administrador
+                    </h1>
 
-            Volver al portal
+                    <p>
+                        Gestiona el sistema DorayPaty
+                    </p>
 
-        </button>
+                </div>
 
-    </div>
-
-    <!-- GRID -->
-
-    <div class="dashboard-grid">
-
-        <!-- EMPLEADOS -->
-
-        <div
-            class="dashboard-card card-empleados"
-            onclick="irEmpleados()"
-        >
-
-            <div class="dashboard-icon">
-                👨‍💼
             </div>
 
-            <h2>
-                Empleados
-            </h2>
-
-            <p>
-                Administra empleados,
-                información personal,
-                roles y accesos.
-            </p>
+            <button
+                class="dashboard-back"
+                onclick="volverPortal()"
+            >
+                Volver al portal
+            </button>
 
         </div>
 
-        <!-- ROLES -->
+        <!-- GRID -->
 
-        <div
-            class="dashboard-card card-roles"
-            onclick="irRoles()"
-        >
+        <div class="dashboard-grid">
 
-            <div class="dashboard-icon">
-                🛡️
+            <!-- EMPLEADOS -->
+
+            <div
+                class="dashboard-card card-empleados"
+                onclick="irEmpleados()"
+            >
+
+                <div class="dashboard-icon icon-empleados" aria-hidden="true">
+                    <span></span>
+                </div>
+
+                <h2>
+                    Empleados
+                </h2>
+
+                <p>
+                    Administra empleados,
+                    información personal,
+                    roles y accesos.
+                </p>
+
             </div>
 
-            <h2>
-                Roles
-            </h2>
+            <!-- ROLES -->
 
-            <p>
-                Gestiona permisos,
-                accesos y tipos
-                de usuario.
-            </p>
+            <div
+                class="dashboard-card card-roles"
+                onclick="irRoles()"
+            >
 
-        </div>
+                <div class="dashboard-icon icon-roles" aria-hidden="true">
+                    <span></span>
+                </div>
 
-        <!-- ASISTENCIAS -->
+                <h2>
+                    Roles
+                </h2>
 
-        <div
-            class="dashboard-card card-asistencias"
-            onclick="irAsistencias()"
-        >
+                <p>
+                    Gestiona permisos,
+                    accesos y tipos
+                    de usuario.
+                </p>
 
-            <div class="dashboard-icon">
-                📅
             </div>
 
-            <h2>
-                Asistencias (No implementado)
-            </h2>
+            <!-- NOMINAS -->
 
-            <p>
-                Consulta entradas,
-                salidas y registros
-                del personal.
-            </p>
+            <div
+                class="dashboard-card card-nominas"
+                onclick="irNominas()"
+            >
 
-        </div>
+                <div class="dashboard-icon icon-nominas" aria-hidden="true">
+                    <span></span>
+                </div>
 
-        <!-- NOMINAS -->
+                <h2>
+                    Nóminas (No implementado)
+                </h2>
 
-        <div
-            class="dashboard-card card-nominas"
-            onclick="irNominas()"
-        >
+                <p>
+                    Administra pagos,
+                    cálculos y reportes
+                    financieros.
+                </p>
 
-            <div class="dashboard-icon">
-                💰
             </div>
 
-            <h2>
-                Nóminas (No implementado)
-            </h2>
-
-            <p>
-                Administra pagos,
-                cálculos y reportes
-                financieros.
-            </p>
-
         </div>
 
-    </div>
+        <!-- FOOTER -->
 
-    <!-- FOOTER -->
+        <div class="dashboard-footer">
+            Sistema de Control de Asistencia
+        </div>
 
-    <div class="dashboard-footer">
-
-        Hecho con ❤️ 
-
-    </div>
+    </section>
 
 </div>
 

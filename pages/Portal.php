@@ -91,6 +91,27 @@
 
             </button>
 
+            <!-- MI NOMINA -->
+
+            <button
+                class="portal-btn portal-nomina"
+                onclick="irMiNomina()"
+            >
+
+                <span class="portal-icon icon-nomina"></span>
+
+                <span class="portal-text">
+                    Mi nómina semanal
+
+                    <small>
+                        Consulta tus días trabajados, faltas y pago acumulado
+                    </small>
+                </span>
+
+                <span class="portal-arrow"></span>
+
+            </button>
+
             <!-- ADMIN -->
 
             <button
@@ -153,7 +174,7 @@ const usuario =
 if (!usuario) {
 
     window.location.href =
-        "../login.php";
+        "../index.php";
 }
 
 /* MOSTRAR NOMBRE */
@@ -188,10 +209,16 @@ function registrarSalida() {
         "scanner.php?tipo=salida";
 }
 
+function irMiNomina() {
+
+    window.location.href =
+        "MiNomina.php";
+}
+
 function irDashboard() {
 
     window.location.href =
-        "../pages/Dashboard.php";
+        "Dashboard.php";
 }
 
 function cerrarSesion() {

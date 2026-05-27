@@ -10,7 +10,7 @@
     <title>Escanear QR</title>
 
     <link rel="stylesheet" href="/AsisFrontend/css/style.css">
-    <link rel="stylesheet" href="/AsisFrontend/css/qr.css">
+    <link rel="stylesheet" href="/AsisFrontend/css/qr.css?v=2">
 
 </head>
 

@@ -1,225 +1,245 @@
+/* ===== REDISEÑO SCANNER QR / ENTRADA Y SALIDA ===== */
 
-body {
-
-    margin: 0;
-    padding: 0;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    background: var(--azul-oscuro);
-
-    color: var(--blanco);
-}
-
-.qr-page {
-
-    min-height: 100vh;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    text-align: center;
-
-    padding: 20px;
-
+* {
     box-sizing: border-box;
 }
 
-.qr-page h1 {
-
-    font-size: 32px;
-
-    margin-bottom: 10px;
-
-    color: var(--blanco);
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.18), transparent 30%),
+        linear-gradient(135deg, #020617, #081a3a 55%, #020617) !important;
+    color: #ffffff;
 }
+
+/* CONTENEDOR PRINCIPAL */
+
+.qr-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 35px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* TARJETA GENERAL */
+
+.qr-page::before {
+    content: "";
+    position: absolute;
+    width: min(92%, 900px);
+    min-height: 720px;
+    border-radius: 30px;
+    background: linear-gradient(
+        145deg,
+        rgba(15, 23, 42, 0.94),
+        rgba(15, 40, 82, 0.78)
+    );
+    border: 1px solid rgba(96, 165, 250, 0.28);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+    z-index: 0;
+}
+
+/* ELEMENTOS ENCIMA */
+
+.qr-page h1,
+.qr-page p,
+.qr-container,
+.btn-eliminar {
+    position: relative;
+    z-index: 1;
+}
+
+/* TITULO */
+
+.qr-page h1 {
+    font-size: 42px;
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.qr-page h1::after {
+    content: "";
+    display: block;
+    width: 70px;
+    height: 4px;
+    background: linear-gradient(90deg, #2563eb, #60a5fa);
+    border-radius: 999px;
+    margin: 22px auto 0;
+}
+
+/* SUBTITULO */
 
 .qr-page p {
-
-    font-size: 16px;
-
-    margin-bottom: 25px;
-
-    color: #dcdcdc;
+    font-size: 17px;
+    margin: 0 0 30px;
+    color: #dbeafe;
 }
+
+/* CONTENEDOR DE CÁMARA */
 
 .qr-container {
-
     width: 100%;
-
-    max-width: 420px;
-
-    background: #000;
-
-    border-radius: 20px;
-
+    max-width: 470px;
+    background: #ffffff;
+    border-radius: 26px;
     overflow: hidden;
-
-    padding: 10px;
-
-    box-shadow: 0px 0px 25px rgba(0,0,0,0.35);
+    padding: 14px;
+    box-shadow: 0 24px 55px rgba(2, 6, 23, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.75);
 }
 
+/* LECTOR */
+
 #reader {
-
     width: 100% !important;
-
-    min-height: 320px;
-
-    background: #000;
-
-    border-radius: 15px;
-
+    min-height: 360px;
+    background: #020617 !important;
+    border-radius: 20px;
     overflow: hidden;
+    border: 8px solid #020617;
 }
 
 #reader video {
-
     width: 100% !important;
-
     height: auto !important;
-
-    min-height: 320px !important;
-
+    min-height: 360px !important;
     object-fit: cover !important;
-
     display: block !important;
-
-    border-radius: 15px;
+    border-radius: 14px;
 }
+
+/* ZONA DEL SCANNER */
 
 #reader__scan_region {
-
-    background: #000 !important;
+    background: #020617 !important;
 }
 
+/* CONTROLES INTERNOS DE HTML5 QR */
+
 #reader__dashboard {
-
-    padding-top: 10px;
-
-    color: white !important;
+    padding-top: 12px;
+    color: #0f172a !important;
+    background: #ffffff !important;
 }
 
 #reader__dashboard_section_csr button,
 #reader__dashboard_section_swaplink {
-
-    background: var(--azul-medio) !important;
-
-    color: white !important;
-
+    background: #2563eb !important;
+    color: #ffffff !important;
     border: none !important;
-
-    padding: 10px 15px !important;
-
+    padding: 11px 16px !important;
     border-radius: 10px !important;
-
     cursor: pointer !important;
-
     margin-top: 10px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
 }
 
 #reader__dashboard_section_csr button:hover {
-
-    background: var(--azul-claro) !important;
+    background: #1d4ed8 !important;
 }
 
+/* BOTÓN CANCELAR / VOLVER */
+
 .btn-eliminar {
-
-    margin-top: 25px;
-
-    padding: 14px 24px;
-
+    margin-top: 28px;
+    padding: 15px 34px;
     border: none;
-
-    border-radius: 12px;
-
-    background: var(--gris-plata);
-
-    color: white;
-
+    border-radius: 14px;
+    background: #ffffff !important;
+    color: #334155 !important;
     font-size: 16px;
-
-    font-weight: bold;
-
+    font-weight: 800;
     cursor: pointer;
-
-    transition: 0.3s;
+    transition: 0.25s ease;
+    box-shadow: 0 14px 30px rgba(2, 6, 23, 0.28);
 }
 
 .btn-eliminar:hover {
-
-    transform: translateY(-2px);
-
-    background: #a44f4f;
+    transform: translateY(-3px);
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
 }
 
+/* ALERTAS */
+
 .alerta {
-
     position: fixed;
-
-    top: 20px;
-
-    right: 20px;
-
-    padding: 15px 20px;
-
-    border-radius: 12px;
-
+    top: 22px;
+    right: 22px;
+    min-width: 280px;
+    padding: 16px 20px;
+    border-radius: 14px;
     color: white;
-
     font-weight: bold;
-
     opacity: 0;
-
-    transform: translateY(-20px);
-
-    transition: 0.3s;
-
-    z-index: 9999;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: 0.35s ease;
+    z-index: 99999;
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.25);
 }
 
 .alerta.mostrar {
-
     opacity: 1;
-
-    transform: translateY(0);
+    visibility: visible;
+    transform: translateX(0);
 }
 
 .alerta.success {
-
-    background: #28a745;
+    background: #16a34a;
 }
 
 .alerta.error {
-
-    background: #dc3545;
+    background: #dc2626;
 }
 
+/* RESPONSIVE */
+
 @media (max-width: 600px) {
+    .qr-page {
+        padding: 24px 14px;
+    }
+
+    .qr-page::before {
+        width: calc(100% - 24px);
+        min-height: calc(100vh - 35px);
+    }
 
     .qr-page h1 {
+        font-size: 31px;
+    }
 
-        font-size: 26px;
+    .qr-page p {
+        font-size: 15px;
+        margin-bottom: 24px;
     }
 
     .qr-container {
-
         max-width: 100%;
+        padding: 10px;
+        border-radius: 22px;
     }
 
     #reader {
-
-        min-height: 280px;
+        min-height: 300px;
     }
 
     #reader video {
+        min-height: 300px !important;
+    }
 
-        min-height: 280px !important;
+    .btn-eliminar {
+        width: 100%;
+        max-width: 360px;
     }
 }
-

@@ -118,7 +118,7 @@
                 </div>
 
                 <h2>
-                    Nóminas (No implementado)
+                    Nóminas
                 </h2>
 
                 <p>

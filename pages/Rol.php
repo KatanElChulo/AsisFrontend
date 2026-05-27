@@ -3,53 +3,81 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roles</title>
 
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/crud.css?v=4">
 
 </head>
 
 <body>
 
-    <h1>Lista de Roles</h1>
+    <main class="crud-page">
+        <section class="crud-panel">
 
-    <div class="acciones-superiores">
+            <header class="crud-header">
+                <div class="crud-title-box">
+                    <span class="crud-header-icon icon-roles"></span>
 
-        <button class="btn-agregar" onclick="abrirModal()">
-            Agregar rol
-        </button>
+                    <div>
+                        <h1>Lista de Roles</h1>
+                        <p>Gestiona los permisos y tipos de usuario del sistema.</p>
+                    </div>
+                </div>
 
-        <input
-            type="text"
-            id="busqueda"
-            placeholder="Buscar rol..."
-            onkeyup="buscarRol()"
-        >
+                <div class="crud-user-box">
+                    <div class="crud-avatar-admin">AD</div>
+                    <div>
+                        <strong>Admin</strong>
+                        <span>Administrador</span>
+                    </div>
+                </div>
+            </header>
 
-    </div>
-    <a href="/AsisFrontend/pages/Dashboard.php" class="btn-regresar">
-     Regresar al Dashboard
-</a>
-    <br>
+            <div class="acciones-superiores">
 
-    <div class="tabla-responsive">
+                <div class="acciones-botones">
+                    <button class="btn-agregar" onclick="abrirModal()">
+                        Agregar rol
+                    </button>
 
-        <table>
+                    <a href="/AsisFrontend/pages/Dashboard.php" class="btn-regresar">
+                        Regresar al Dashboard
+                    </a>
+                </div>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+                <div class="busqueda-box">
+                    <input
+                        type="text"
+                        id="busqueda"
+                        placeholder="Buscar rol..."
+                        onkeyup="buscarRol()"
+                    >
+                </div>
 
-            <tbody id="tablaRoles"></tbody>
+            </div>
 
-        </table>
+            <div class="tabla-responsive">
 
-    </div>
+                <table class="tabla-roles">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaRoles"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+    </main>
 
     <div id="alerta" class="alerta"></div>
 

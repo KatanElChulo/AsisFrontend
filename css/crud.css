@@ -1,4 +1,4 @@
-/* ===== CRUD EMPLEADOS REDISEÑADO ===== */
+/* ===== CRUD GENERAL REDISEÑADO: EMPLEADOS Y ROLES ===== */
 
 * {
     box-sizing: border-box;
@@ -299,7 +299,7 @@ tbody tr:last-child td {
     border-bottom: none;
 }
 
-td:nth-child(3) {
+.tabla-empleados td:nth-child(3) {
     color: #1d4ed8;
     font-weight: 800;
     font-size: 12px;
@@ -307,7 +307,7 @@ td:nth-child(3) {
     text-transform: uppercase;
 }
 
-td:nth-child(6) {
+.tabla-empleados td:nth-child(6) {
     font-weight: 800;
 }
 
@@ -418,6 +418,48 @@ td .btn-eliminar {
 
 .alerta.error {
     background: #dc2626;
+}
+
+
+/* AJUSTES ESPECÍFICOS PARA ROLES */
+
+.tabla-roles {
+    min-width: 720px;
+}
+
+.tabla-roles th,
+.tabla-roles td {
+    text-align: center;
+}
+
+.tabla-roles td:nth-child(2) {
+    color: #1d4ed8;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.icon-roles::before {
+    width: 34px;
+    height: 42px;
+    border-radius: 18px 18px 10px 10px;
+    top: 17px;
+    left: 21px;
+    background: transparent;
+    border: 4px solid #bfdbfe;
+    box-sizing: border-box;
+}
+
+.icon-roles::after {
+    width: 18px;
+    height: 10px;
+    border-left: 4px solid #bfdbfe;
+    border-bottom: 4px solid #bfdbfe;
+    background: transparent;
+    transform: rotate(-45deg);
+    bottom: 28px;
+    left: 29px;
+    border-radius: 0;
 }
 
 /* RESPONSIVE */

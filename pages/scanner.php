@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 setTimeout(() => {
                     window.location.href = "Portal.php";
-                }, 1500);
+                }, 3000);
 
             } else {
 
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 setTimeout(() => {
                     window.location.href = "Portal.php";
-                }, 3000);
+                }, 5000);
             }
 
         } catch (error) {
@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             setTimeout(() => {
                 window.location.href = "Portal.php";
-            }, 2500);
+            }, 5000);
         }
     }
 
@@ -266,7 +266,7 @@ function mostrarAlerta(mensaje, tipoAlerta = "success") {
 
     setTimeout(() => {
         alerta.classList.remove("mostrar");
-    }, 3000);
+    }, 5000);
 }
 
 function volverPortal() {

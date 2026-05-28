@@ -16,6 +16,9 @@
         <button class="btn btn-cerrar-semana" onclick="cerrarSemana()">
             Cerrar semana y guardar nóminas
         </button>
+        <a href="Dashboard.php" class="btn-regresar">
+                    Regresar al Dashboard
+                </a>
     </header>
 
     <div id="alerta" class="alerta"></div>

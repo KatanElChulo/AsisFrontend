@@ -448,4 +448,28 @@ td:last-child {
     .modal-botones {
         flex-direction: column;
     }
+
+    /* ============================
+   BOTÓN REGRESAR DASHBOARD
+============================ */
+
+.btn-regresar-dashboard {
+    background: linear-gradient(135deg, #2a6bac, #47a8e5) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 13px 18px !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    margin: 3px !important;
+    transition: 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(71, 168, 229, 0.35) !important;
+}
+
+.btn-regresar-dashboard:hover {
+    background: linear-gradient(135deg, #47a8e5, #2a6bac) !important;
+    transform: scale(1.03) !important;
+    opacity: 0.95 !important;
+}
 }

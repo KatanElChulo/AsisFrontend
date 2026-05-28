@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Nóminas</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/nominas.css">
 </head>
 <body>
@@ -14,9 +15,13 @@
         </div>
 
         <div class="acciones-header">
-            <button class="btn btn-regresar" onclick="regresarDashboard()">
-                Regresar al Dashboard
-            </button>
+            <button
+    type="button"
+    class="btn-regresar-dashboard"
+    onclick="regresarDashboard()"
+>
+    Regresar al Dashboard
+</button>
 
             <button class="btn btn-cerrar-semana" onclick="cerrarSemana()">
                 Cerrar semana y guardar nóminas

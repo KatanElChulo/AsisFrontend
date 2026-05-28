@@ -1,156 +1,502 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
     <meta charset="UTF-8">
-    <title>Nóminas</title>
-    <link rel="stylesheet" href="../css/nominas.css">
+
+    <title>Empleados</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/crud.css">
+
 </head>
+
 <body>
 
-    <header class="encabezado">
-        <div>
-            <h1>Nóminas</h1>
-            <p>Control semanal automático de pagos, faltas y días trabajados</p>
+    <h1>Lista de empleados</h1>
+
+    <div class="acciones-superiores">
+
+        <div class="grupo-botones">
+
+            <button class="btn-agregar" onclick="abrirModal()">
+                Agregar empleado
+            </button>
+
+            <button class="btn-regresar" onclick="regresarDashboard()">
+                Regresar al Dashboard
+            </button>
+
         </div>
 
-        <button class="btn btn-cerrar-semana" onclick="cerrarSemana()">
-            Cerrar semana y guardar nóminas
-        </button>
-        <a href="Dashboard.php" class="btn-regresar">
-                    Regresar al Dashboard
-                </a>
-    </header>
+        <input
+            type="text"
+            id="busqueda"
+            placeholder="Buscar empleado..."
+            onkeyup="buscarEmpleado()"
+        >
+
+    </div>
+
+    <div class="tabla-responsive">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Rol</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Sueldo</th>
+                    <th>Acciones</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="tablaEmpleados">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ALERTA -->
 
     <div id="alerta" class="alerta"></div>
 
-    <!-- RESUMEN SEMANA ACTUAL -->
-    <section class="panel-resumen">
-        <div class="card-resumen">
-            <span>Semana actual</span>
-            <strong id="rangoSemana">Cargando...</strong>
-        </div>
+    <!-- MODAL -->
 
-        <div class="card-resumen">
-            <span>Días hábiles</span>
-            <strong id="diasHabiles">0</strong>
-        </div>
+    <div id="modalEmpleado" class="modal">
 
-        <div class="card-resumen">
-            <span>Días transcurridos</span>
-            <strong id="diasTranscurridos">0</strong>
-        </div>
-
-        <div class="card-resumen">
-            <span>Actualización</span>
-            <strong id="ultimaActualizacion">--:--:--</strong>
-        </div>
-    </section>
-
-    <!-- NÓMINA ACTUAL EN VIVO -->
-    <section class="seccion">
-        <div class="seccion-header">
-            <div>
-                <h2>Nómina semana actual en vivo</h2>
-                <p>Se calcula automáticamente con las asistencias registradas de lunes a viernes.</p>
-            </div>
-
-            <input type="text" id="busquedaActual" placeholder="Buscar empleado...">
-        </div>
-
-        <div class="tabla-contenedor">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID Empleado</th>
-                        <th>Empleado</th>
-                        <th>Días Trabajados</th>
-                        <th>Faltas</th>
-                        <th>Sueldo Diario</th>
-                        <th>Pago Actual</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-
-                <tbody id="tablaNominaActual">
-                    <tr>
-                        <td colspan="7">Cargando nómina actual...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- HISTORIAL DE NÓMINAS CERRADAS -->
-    <section class="seccion">
-        <div class="seccion-header">
-            <div>
-                <h2>Historial de nóminas cerradas</h2>
-                <p>Aquí aparecen las semanas guardadas al cerrar nómina.</p>
-            </div>
-
-            <input type="text" id="busquedaHistorial" placeholder="Buscar historial...">
-        </div>
-
-        <div class="tabla-contenedor">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID Nómina</th>
-                        <th>Empleado</th>
-                        <th>Fecha Inicio</th>
-                        <th>Fecha Fin</th>
-                        <th>Días Trabajados</th>
-                        <th>Faltas</th>
-                        <th>Sueldo Diario</th>
-                        <th>Total Pago</th>
-                        <th>Generada</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody id="tablaHistorialNominas">
-                    <tr>
-                        <td colspan="10">Cargando historial...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- MODAL EDITAR NÓMINA HISTORIAL -->
-    <div id="modalNomina" class="modal">
         <div class="modal-contenido">
-            <h2>Editar Nómina</h2>
 
-            <form id="formNomina">
-                <input type="hidden" id="nomina_id">
+            <span class="cerrar" onclick="cerrarModal()">
+                &times;
+            </span>
 
-                <label>Empleado ID</label>
-                <input type="number" id="empleado_id" min="1" required>
+            <h2 id="tituloModal">
+                Agregar empleado
+            </h2>
 
-                <label>Fecha inicio</label>
-                <input type="date" id="fecha_inicio" required>
+            <select id="rol_id"></select>
 
-                <label>Fecha fin</label>
-                <input type="date" id="fecha_fin" required>
+            <input type="text" id="nombre" placeholder="Nombre">
 
-                <label>Días trabajados</label>
-                <input type="number" id="dias_trabajados" min="0" required>
+            <input type="text" id="apellido_paterno" placeholder="Apellido paterno">
 
-                <label>Faltas</label>
-                <input type="number" id="faltas" min="0" required>
+            <input type="text" id="apellido_materno" placeholder="Apellido materno">
 
-                <label>Sueldo diario</label>
-                <input type="number" step="0.01" id="sueldo_diario" min="0" required>
+            <input type="email" id="correo" placeholder="Correo">
 
-                <div class="modal-botones">
-                    <button type="submit" class="btn btn-guardar">Guardar cambios</button>
-                    <button type="button" class="btn btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-                </div>
-            </form>
+            <input type="text" id="telefono" placeholder="Teléfono">
+
+            <input type="number" id="sueldo_diario" placeholder="Sueldo diario">
+
+            <br><br>
+
+            <button class="btn-guardar" onclick="guardarEmpleado()">
+                Guardar empleado
+            </button>
+
         </div>
+
     </div>
 
-    <script src="../js/nominas.js"></script>
+<script>
+
+const API_EMPLEADOS = "../../AsisBackend/api/empleados.php";
+const API_ROLES = "../../AsisBackend/api/roles.php";
+
+let editando = false;
+let empleadoId = null;
+
+function regresarDashboard() {
+
+    window.location.href = "Dashboard.php";
+}
+
+function abrirModal() {
+
+    document.getElementById("modalEmpleado").style.display = "flex";
+}
+
+function cerrarModal() {
+
+    document.getElementById("modalEmpleado").style.display = "none";
+
+    document.getElementById("rol_id").value = "";
+    document.getElementById("nombre").value = "";
+    document.getElementById("apellido_paterno").value = "";
+    document.getElementById("apellido_materno").value = "";
+    document.getElementById("correo").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("sueldo_diario").value = "";
+
+    document.getElementById("tituloModal").innerText =
+        "Agregar empleado";
+
+    editando = false;
+    empleadoId = null;
+}
+
+function mostrarAlerta(mensaje, tipo = "success") {
+
+    const alerta = document.getElementById("alerta");
+
+    alerta.innerText = mensaje;
+
+    alerta.classList.remove("success", "error");
+
+    alerta.classList.add("mostrar", tipo);
+
+    setTimeout(() => {
+
+        alerta.classList.remove("mostrar");
+
+    }, 3000);
+}
+
+async function cargarRoles() {
+
+    try {
+
+        const respuesta = await fetch(API_ROLES);
+
+        const texto = await respuesta.text();
+
+        console.log("Respuesta roles:", texto);
+
+        const data = JSON.parse(texto);
+
+        let html = "";
+
+        data.forEach(rol => {
+
+            html += `
+                <option value="${rol.id}">
+                    ${rol.nombre}
+                </option>
+            `;
+        });
+
+        document.getElementById("rol_id").innerHTML = html;
+
+    } catch (error) {
+
+        console.error("Error al cargar roles:", error);
+
+        mostrarAlerta(
+            "Error al cargar roles",
+            "error"
+        );
+    }
+}
+
+async function cargarEmpleados() {
+
+    try {
+
+        const respuesta = await fetch(API_EMPLEADOS);
+
+        const texto = await respuesta.text();
+
+        console.log("Respuesta empleados:", texto);
+
+        const data = JSON.parse(texto);
+
+        let html = "";
+
+        data.forEach(emp => {
+
+            html += `
+                <tr>
+
+                    <td>${emp.id}</td>
+
+                    <td>
+                        ${emp.nombre ?? ""}
+                        ${emp.apellido_paterno ?? ""}
+                        ${emp.apellido_materno ?? ""}
+                    </td>
+
+                    <td>${emp.rol_nombre ?? ""}</td>
+
+                    <td>${emp.correo ?? ""}</td>
+
+                    <td>${emp.telefono ?? ""}</td>
+
+                    <td>$${emp.sueldo_diario ?? "0.00"}</td>
+
+                    <td>
+
+                        <button
+                            class="btn-editar"
+                            onclick="editarEmpleado(${emp.id})"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            class="btn-eliminar"
+                            onclick="eliminarEmpleado(${emp.id})"
+                        >
+                            Eliminar
+                        </button>
+
+                    </td>
+
+                </tr>
+            `;
+        });
+
+        document.getElementById("tablaEmpleados").innerHTML = html;
+
+    } catch (error) {
+
+        console.error("Error al cargar empleados:", error);
+
+        mostrarAlerta(
+            "Error al cargar empleados",
+            "error"
+        );
+    }
+}
+
+function buscarEmpleado() {
+
+    let filtro =
+        document.getElementById("busqueda")
+        .value
+        .toLowerCase();
+
+    let filas =
+        document.querySelectorAll("#tablaEmpleados tr");
+
+    filas.forEach(fila => {
+
+        let texto =
+            fila.innerText.toLowerCase();
+
+        if (texto.includes(filtro)) {
+
+            fila.style.display = "";
+        } else {
+
+            fila.style.display = "none";
+        }
+    });
+}
+
+async function guardarEmpleado() {
+
+    if (
+        document.getElementById("nombre").value === "" ||
+        document.getElementById("correo").value === "" ||
+        document.getElementById("telefono").value === ""
+    ) {
+
+        mostrarAlerta(
+            "Completa todos los campos obligatorios",
+            "error"
+        );
+
+        return;
+    }
+
+    const empleado = {
+
+        rol_id: document.getElementById("rol_id").value,
+        nombre: document.getElementById("nombre").value,
+        apellido_paterno: document.getElementById("apellido_paterno").value,
+        apellido_materno: document.getElementById("apellido_materno").value,
+        correo: document.getElementById("correo").value,
+        password: "123456",
+        telefono: document.getElementById("telefono").value,
+        sueldo_diario: document.getElementById("sueldo_diario").value,
+        horario_entrada: "08:00:00",
+        horario_salida: "17:00:00"
+    };
+
+    let url = API_EMPLEADOS;
+    let method = "POST";
+
+    if (editando) {
+
+        url += `?id=${empleadoId}`;
+        method = "PUT";
+    }
+
+    try {
+
+        const respuesta = await fetch(url, {
+
+            method: method,
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(empleado)
+        });
+
+        const texto = await respuesta.text();
+
+        console.log("Respuesta guardar empleado:", texto);
+
+        let resultado = {};
+
+        if (texto) {
+            resultado = JSON.parse(texto);
+        }
+
+        if (resultado.success === false) {
+
+            mostrarAlerta(
+                resultado.message || "Error al guardar empleado",
+                "error"
+            );
+
+            return;
+        }
+
+        if (editando) {
+
+            mostrarAlerta("Empleado actualizado");
+        } else {
+
+            mostrarAlerta("Empleado agregado");
+        }
+
+        cerrarModal();
+
+        cargarEmpleados();
+
+    } catch (error) {
+
+        console.error("Error al guardar empleado:", error);
+
+        mostrarAlerta(
+            "Error al guardar empleado",
+            "error"
+        );
+    }
+}
+
+async function editarEmpleado(id) {
+
+    try {
+
+        const respuesta = await fetch(`${API_EMPLEADOS}?id=${id}`);
+
+        const texto = await respuesta.text();
+
+        console.log("Respuesta editar empleado:", texto);
+
+        const emp = JSON.parse(texto);
+
+        abrirModal();
+
+        editando = true;
+        empleadoId = id;
+
+        document.getElementById("tituloModal").innerText =
+            "Editar empleado";
+
+        document.getElementById("rol_id").value =
+            emp.rol_id;
+
+        document.getElementById("nombre").value =
+            emp.nombre;
+
+        document.getElementById("apellido_paterno").value =
+            emp.apellido_paterno;
+
+        document.getElementById("apellido_materno").value =
+            emp.apellido_materno;
+
+        document.getElementById("correo").value =
+            emp.correo;
+
+        document.getElementById("telefono").value =
+            emp.telefono;
+
+        document.getElementById("sueldo_diario").value =
+            emp.sueldo_diario;
+
+    } catch (error) {
+
+        console.error("Error al obtener empleado:", error);
+
+        mostrarAlerta(
+            "Error al obtener empleado",
+            "error"
+        );
+    }
+}
+
+async function eliminarEmpleado(id) {
+
+    let confirmar = confirm(
+        "¿Seguro que deseas eliminar este empleado?"
+    );
+
+    if (!confirmar) {
+
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_EMPLEADOS}?id=${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        const texto = await respuesta.text();
+
+        console.log("Respuesta eliminar empleado:", texto);
+
+        let resultado = {};
+
+        if (texto) {
+            resultado = JSON.parse(texto);
+        }
+
+        if (resultado.success === false) {
+
+            mostrarAlerta(
+                resultado.message || "Error al eliminar empleado",
+                "error"
+            );
+
+            return;
+        }
+
+        mostrarAlerta("Empleado eliminado");
+
+        cargarEmpleados();
+
+    } catch (error) {
+
+        console.error("Error al eliminar empleado:", error);
+
+        mostrarAlerta(
+            "Error al eliminar empleado",
+            "error"
+        );
+    }
+}
+
+cargarRoles();
+cargarEmpleados();
+
+</script>
+
 </body>
 </html>

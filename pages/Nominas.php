@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Nóminas</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/nominas.css">
+<link rel="stylesheet" href="../css/nominas.css?v=2">
 </head>
 <body>
 

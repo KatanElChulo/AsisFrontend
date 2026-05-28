@@ -9,8 +9,8 @@
 
     <title>Escanear QR</title>
 
-    <link rel="stylesheet" href="/AsisFrontend/css/style.css">
-    <link rel="stylesheet" href="/AsisFrontend/css/qr.css?v=2">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/qr.css?v=3">
 
 </head>
 
@@ -20,7 +20,7 @@
 
     <h1 id="tituloScanner">Escanear QR</h1>
 
-    <p>Permite el acceso a la cámara para registrar asistencia</p>
+    <p>Permite el acceso a la cámara y ubicación para registrar asistencia</p>
 
     <div class="qr-container">
         <div id="reader"></div>
@@ -36,7 +36,6 @@
 
 <div id="alerta" class="alerta"></div>
 
-
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
 <script>
@@ -47,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         JSON.parse(localStorage.getItem("usuario"));
 
     if (!usuario) {
-        window.location.href = "/AsisFrontend/index.php";
+        window.location.href = "../index.php";
         return;
     }
 
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
         params.get("tipo");
 
     if (tipo !== "entrada" && tipo !== "salida") {
-        window.location.href = "/AsisFrontend/pages/Portal.php";
+        window.location.href = "Portal.php";
         return;
     }
 
@@ -84,14 +83,16 @@ document.addEventListener("DOMContentLoaded", function() {
         {
             fps: 10,
             qrbox: {
-    width: 220,
-    height: 220
-},
-aspectRatio: 1.0
+                width: 220,
+                height: 220
+            },
+            aspectRatio: 1.0
         },
         function(decodedText) {
 
-            if (!scannerActivo) return;
+            if (!scannerActivo) {
+                return;
+            }
 
             scannerActivo = false;
 
@@ -104,7 +105,7 @@ aspectRatio: 1.0
             });
         },
         function(errorMessage) {
-            // No mostrar nada aquí.
+            // No mostrar errores continuos del scanner.
         }
     )
     .catch(error => {
@@ -120,9 +121,23 @@ aspectRatio: 1.0
     function obtenerUbicacion(token) {
 
         if (!navigator.geolocation) {
-            registrarAsistencia(token, null, null);
+
+            mostrarAlerta(
+                "Tu navegador no soporta geolocalización. No se puede registrar asistencia.",
+                "error"
+            );
+
+            setTimeout(() => {
+                window.location.href = "Portal.php";
+            }, 2500);
+
             return;
         }
+
+        mostrarAlerta(
+            "Obteniendo ubicación...",
+            "success"
+        );
 
         navigator.geolocation.getCurrentPosition(
 
@@ -131,29 +146,48 @@ aspectRatio: 1.0
                 registrarAsistencia(
                     token,
                     position.coords.latitude,
-                    position.coords.longitude
+                    position.coords.longitude,
+                    position.coords.accuracy
                 );
             },
 
             error => {
 
-                registrarAsistencia(token, null, null);
+                let mensaje = "No se pudo obtener tu ubicación.";
+
+                if (error.code === error.PERMISSION_DENIED) {
+                    mensaje = "Debes permitir la ubicación para registrar asistencia.";
+                }
+
+                if (error.code === error.POSITION_UNAVAILABLE) {
+                    mensaje = "La ubicación no está disponible. Activa tu GPS.";
+                }
+
+                if (error.code === error.TIMEOUT) {
+                    mensaje = "La ubicación tardó demasiado. Intenta de nuevo.";
+                }
+
+                mostrarAlerta(mensaje, "error");
+
+                setTimeout(() => {
+                    window.location.href = "Portal.php";
+                }, 3000);
             },
 
             {
                 enableHighAccuracy: true,
-                timeout: 10000,
+                timeout: 15000,
                 maximumAge: 0
             }
         );
     }
 
-    async function registrarAsistencia(token, latitud, longitud) {
+    async function registrarAsistencia(token, latitud, longitud, precision) {
 
         try {
 
             const res = await fetch(
-                "/AsisBackend/api/asistencia_qr.php",
+                "../../AsisBackend/api/asistencia_qr.php",
                 {
                     method: "POST",
 
@@ -166,7 +200,8 @@ aspectRatio: 1.0
                         tipo: tipo,
                         token: token,
                         latitud: latitud,
-                        longitud: longitud
+                        longitud: longitud,
+                        precision: precision
                     })
                 }
             );
@@ -174,7 +209,7 @@ aspectRatio: 1.0
             const texto =
                 await res.text();
 
-            console.log(texto);
+            console.log("Respuesta asistencia_qr.php:", texto);
 
             const data =
                 JSON.parse(texto);
@@ -184,8 +219,7 @@ aspectRatio: 1.0
                 mostrarAlerta(data.message, "success");
 
                 setTimeout(() => {
-                    window.location.href =
-                        "/AsisFrontend/pages/Portal.php";
+                    window.location.href = "Portal.php";
                 }, 1500);
 
             } else {
@@ -193,9 +227,8 @@ aspectRatio: 1.0
                 mostrarAlerta(data.message, "error");
 
                 setTimeout(() => {
-                    window.location.href =
-                        "/AsisFrontend/pages/Portal.php";
-                }, 2000);
+                    window.location.href = "Portal.php";
+                }, 3000);
             }
 
         } catch (error) {
@@ -208,9 +241,8 @@ aspectRatio: 1.0
             );
 
             setTimeout(() => {
-                window.location.href =
-                    "/AsisFrontend/pages/Portal.php";
-            }, 2000);
+                window.location.href = "Portal.php";
+            }, 2500);
         }
     }
 
@@ -238,8 +270,7 @@ function mostrarAlerta(mensaje, tipoAlerta = "success") {
 }
 
 function volverPortal() {
-    window.location.href =
-        "/AsisFrontend/pages/Portal.php";
+    window.location.href = "Portal.php";
 }
 
 </script>

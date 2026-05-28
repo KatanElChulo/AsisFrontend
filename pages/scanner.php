@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             setTimeout(() => {
                 window.location.href = "Portal.php";
-            }, 2500);
+            }, 5000);
 
             return;
         }
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 setTimeout(() => {
                     window.location.href = "Portal.php";
-                }, 3000);
+                }, 5000);
             },
 
             {
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 setTimeout(() => {
                     window.location.href = "Portal.php";
-                }, 3000);
+                }, 5000);
 
             } else {
 

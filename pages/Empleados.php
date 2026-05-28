@@ -9,7 +9,7 @@
     <title>Empleados</title>
 
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/crud.css?v=2">
+    <link rel="stylesheet" href="../css/crud.css?v=3">
 
 </head>
 
@@ -76,6 +76,8 @@
                         <th>Correo</th>
                         <th>Teléfono</th>
                         <th>Sueldo</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
                         <th>Acciones</th>
                     </tr>
 
@@ -121,6 +123,12 @@
 
         <input type="number" id="sueldo_diario" placeholder="Sueldo diario">
 
+        <label for="horario_entrada">Horario de entrada</label>
+        <input type="time" id="horario_entrada" value="07:00">
+
+        <label for="horario_salida">Horario de salida</label>
+        <input type="time" id="horario_salida" value="16:00">
+
         <br><br>
 
         <button class="btn-guardar" onclick="guardarEmpleado()">
@@ -142,6 +150,11 @@ let empleadoId = null;
 function abrirModal() {
 
     document.getElementById("modalEmpleado").style.display = "flex";
+
+    if (!editando) {
+        document.getElementById("horario_entrada").value = "07:00";
+        document.getElementById("horario_salida").value = "16:00";
+    }
 }
 
 function cerrarModal() {
@@ -155,6 +168,8 @@ function cerrarModal() {
     document.getElementById("correo").value = "";
     document.getElementById("telefono").value = "";
     document.getElementById("sueldo_diario").value = "";
+    document.getElementById("horario_entrada").value = "07:00";
+    document.getElementById("horario_salida").value = "16:00";
 
     document.getElementById("tituloModal").innerText =
         "Agregar empleado";
@@ -248,6 +263,10 @@ async function cargarEmpleados() {
 
                     <td>$${emp.sueldo_diario ?? "0.00"}</td>
 
+                    <td>${emp.horario_entrada ?? "--"}</td>
+
+                    <td>${emp.horario_salida ?? "--"}</td>
+
                     <td>
 
                         <button
@@ -313,7 +332,9 @@ async function guardarEmpleado() {
     if (
         document.getElementById("nombre").value === "" ||
         document.getElementById("correo").value === "" ||
-        document.getElementById("telefono").value === ""
+        document.getElementById("telefono").value === "" ||
+        document.getElementById("horario_entrada").value === "" ||
+        document.getElementById("horario_salida").value === ""
     ) {
 
         mostrarAlerta(
@@ -334,8 +355,9 @@ async function guardarEmpleado() {
         password: "123456",
         telefono: document.getElementById("telefono").value,
         sueldo_diario: document.getElementById("sueldo_diario").value,
-        horario_entrada: "08:00:00",
-        horario_salida: "17:00:00"
+
+        horario_entrada: document.getElementById("horario_entrada").value + ":00",
+        horario_salida: document.getElementById("horario_salida").value + ":00"
     };
 
     let url = API_EMPLEADOS;
@@ -362,6 +384,18 @@ async function guardarEmpleado() {
 
         const texto = await respuesta.text();
         console.log("Respuesta guardar empleado:", texto);
+
+        if (texto) {
+            const resultado = JSON.parse(texto);
+
+            if (resultado.success === false) {
+                mostrarAlerta(
+                    resultado.message || "Error al guardar empleado",
+                    "error"
+                );
+                return;
+            }
+        }
 
         if (editando) {
 
@@ -426,6 +460,12 @@ async function editarEmpleado(id) {
         document.getElementById("sueldo_diario").value =
             emp.sueldo_diario;
 
+        document.getElementById("horario_entrada").value =
+            formatearHoraInput(emp.horario_entrada || "07:00:00");
+
+        document.getElementById("horario_salida").value =
+            formatearHoraInput(emp.horario_salida || "16:00:00");
+
     } catch (error) {
 
         console.error("Error al obtener empleado:", error);
@@ -473,6 +513,15 @@ async function eliminarEmpleado(id) {
             "error"
         );
     }
+}
+
+function formatearHoraInput(hora) {
+
+    if (!hora) {
+        return "";
+    }
+
+    return hora.substring(0, 5);
 }
 
 cargarRoles();

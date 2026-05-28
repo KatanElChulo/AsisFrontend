@@ -22,7 +22,7 @@
         <h1>Nóminas</h1>
 
         <p>
-            Control semanal automático de pagos, faltas, retardos y días trabajados.
+            Control semanal automático de pagos, faltas, retardos y días trabajados
         </p>
     </div>
 
@@ -37,7 +37,6 @@
         </button>
 
         <button
-            type="button"
             class="btn btn-cerrar-semana"
             onclick="cerrarSemana()"
         >

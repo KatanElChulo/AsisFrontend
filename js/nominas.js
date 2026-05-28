@@ -48,10 +48,17 @@ async function cargarNominaActual() {
 
         nominaActual = result.data || [];
 
-        rangoSemana.textContent = `${formatearFecha(result.semana.fecha_inicio)} al ${formatearFecha(result.semana.fecha_fin)}`;
-        diasHabiles.textContent = result.semana.dias_habiles_semana;
-        diasTranscurridos.textContent = result.semana.dias_habiles_transcurridos;
-        ultimaActualizacion.textContent = obtenerHoraActual();
+        rangoSemana.textContent =
+            `${formatearFecha(result.semana.fecha_inicio)} al ${formatearFecha(result.semana.fecha_fin)}`;
+
+        diasHabiles.textContent =
+            result.semana.dias_habiles_semana;
+
+        diasTranscurridos.textContent =
+            result.semana.dias_habiles_transcurridos;
+
+        ultimaActualizacion.textContent =
+            obtenerHoraActual();
 
         pintarTablaNominaActual(nominaActual);
 
@@ -67,7 +74,7 @@ function pintarTablaNominaActual(data) {
     if (!data || data.length === 0) {
         tablaNominaActual.innerHTML = `
             <tr>
-                <td colspan="7">No hay empleados activos para mostrar.</td>
+                <td colspan="8">No hay empleados activos para mostrar.</td>
             </tr>
         `;
         return;
@@ -79,12 +86,15 @@ function pintarTablaNominaActual(data) {
         let estado = "Sin asistencias";
         let claseEstado = "estado-rojo";
 
-        if (Number(item.dias_trabajados) > 0 && Number(item.faltas) === 0) {
+        if (Number(item.faltas) > 0) {
+            estado = "Con faltas";
+            claseEstado = "estado-rojo";
+        } else if (Number(item.retardos) > 0) {
+            estado = "Con retardos";
+            claseEstado = "estado-amarillo";
+        } else if (Number(item.dias_trabajados) > 0) {
             estado = "Al corriente";
             claseEstado = "estado-verde";
-        } else if (Number(item.dias_trabajados) > 0 && Number(item.faltas) > 0) {
-            estado = "Con faltas";
-            claseEstado = "estado-amarillo";
         }
 
         fila.innerHTML = `
@@ -92,6 +102,7 @@ function pintarTablaNominaActual(data) {
             <td>${item.empleado}</td>
             <td>${item.dias_trabajados}</td>
             <td>${item.faltas}</td>
+            <td>${item.retardos ?? 0}</td>
             <td>$${Number(item.sueldo_diario).toFixed(2)}</td>
             <td>$${Number(item.total_pago).toFixed(2)}</td>
             <td>
@@ -329,7 +340,8 @@ busquedaActual.addEventListener("input", function () {
     const filtrados = nominaActual.filter(item => {
         return (
             String(item.empleado_id).includes(texto) ||
-            String(item.empleado).toLowerCase().includes(texto)
+            String(item.empleado).toLowerCase().includes(texto) ||
+            String(item.retardos ?? 0).includes(texto)
         );
     });
 

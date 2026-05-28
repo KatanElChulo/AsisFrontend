@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi Nómina Semanal</title>
-    <link rel="stylesheet" href="../css/miNomina.css">
+    <link rel="stylesheet" href="../css/miNomina.css?v=2">
 </head>
 <body>
 
@@ -12,7 +12,7 @@
     <div class="header">
         <div>
             <h1>Mi nómina semanal</h1>
-            <p>Consulta tus días trabajados, faltas y pago acumulado de la semana actual.</p>
+            <p>Consulta tus días trabajados, faltas, retardos y pago acumulado de la semana actual.</p>
         </div>
 
         <button class="btn-regresar" onclick="volverPortal()">
@@ -35,6 +35,11 @@
             <div class="resumen-card">
                 <span>Faltas</span>
                 <strong id="faltas">0</strong>
+            </div>
+
+            <div class="resumen-card">
+                <span>Retardos</span>
+                <strong id="retardos">0</strong>
             </div>
 
             <div class="resumen-card">
@@ -78,7 +83,7 @@
 
 </div>
 
-<script src="../js/miNomina.js"></script>
+<script src="../js/miNomina.js?v=2"></script>
 
 </body>
 </html>

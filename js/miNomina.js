@@ -47,19 +47,33 @@ function pintarNomina(data) {
     document.getElementById("rangoSemana").textContent =
         `Semana del ${formatearFecha(data.fecha_inicio)} al ${formatearFecha(data.fecha_fin)}`;
 
-    document.getElementById("diasTrabajados").textContent = data.dias_trabajados;
-    document.getElementById("faltas").textContent = data.faltas;
-    document.getElementById("sueldoDiario").textContent = `$${Number(data.sueldo_diario).toFixed(2)}`;
-    document.getElementById("totalPago").textContent = `$${Number(data.total_pago).toFixed(2)}`;
+    document.getElementById("diasTrabajados").textContent =
+        data.dias_trabajados;
 
-    const estado = document.getElementById("estadoNomina");
+    document.getElementById("faltas").textContent =
+        data.faltas;
 
-    if (Number(data.dias_trabajados) > 0 && Number(data.faltas) === 0) {
+    document.getElementById("retardos").textContent =
+        data.retardos ?? 0;
+
+    document.getElementById("sueldoDiario").textContent =
+        `$${Number(data.sueldo_diario).toFixed(2)}`;
+
+    document.getElementById("totalPago").textContent =
+        `$${Number(data.total_pago).toFixed(2)}`;
+
+    const estado =
+        document.getElementById("estadoNomina");
+
+    if (Number(data.faltas) > 0) {
+        estado.textContent = "Con faltas";
+        estado.className = "estado-nomina estado-rojo";
+    } else if (Number(data.retardos) > 0) {
+        estado.textContent = "Con retardos";
+        estado.className = "estado-nomina estado-amarillo";
+    } else if (Number(data.dias_trabajados) > 0) {
         estado.textContent = "Al corriente";
         estado.className = "estado-nomina estado-verde";
-    } else if (Number(data.dias_trabajados) > 0 && Number(data.faltas) > 0) {
-        estado.textContent = "Con faltas";
-        estado.className = "estado-nomina estado-amarillo";
     } else {
         estado.textContent = "Sin asistencias registradas";
         estado.className = "estado-nomina estado-rojo";
@@ -89,6 +103,8 @@ function pintarDetalle(detalle) {
 
         if (item.estado === "Asistencia") {
             clase = "badge verde";
+        } else if (item.estado === "Retardo") {
+            clase = "badge amarillo";
         } else if (item.estado === "Falta") {
             clase = "badge rojo";
         } else if (item.estado === "Entrada sin salida") {

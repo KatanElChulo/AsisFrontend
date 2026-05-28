@@ -1,4 +1,17 @@
-
+:root {
+    --azul-oscuro: #081534;
+    --azul-medio: #2a6bac;
+    --azul-claro: #47a8e5;
+    --morado: #8e44ad;
+    --rojo: #c0392b;
+    --verde: #27ae60;
+    --amarillo: #f39c12;
+    --gris-claro: #f4f6f9;
+    --gris-medio: #dcdde1;
+    --gris-texto: #666;
+    --negro: #1f1f1f;
+    --blanco: #ffffff;
+}
 
 /* ============================
    GENERALES
@@ -51,6 +64,13 @@ p {
     margin-bottom: 25px;
 }
 
+.acciones-header {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 /* ============================
    BOTONES
 ============================ */
@@ -75,6 +95,23 @@ p {
     transform: scale(0.98);
 }
 
+.btn-regresar {
+    background: linear-gradient(135deg, #2a6bac, #47a8e5) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 13px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(71, 168, 229, 0.35);
+}
+
+.btn-regresar:hover {
+    background: linear-gradient(135deg, #47a8e5, #2a6bac) !important;
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
 .btn-cerrar-semana {
     background: var(--morado);
     padding: 13px 18px;
@@ -95,6 +132,12 @@ p {
 
 .btn-cancelar {
     background: var(--rojo);
+}
+
+.grupo-botones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 /* ============================
@@ -371,6 +414,16 @@ td:last-child {
         align-items: stretch;
     }
 
+    .acciones-header {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acciones-header .btn {
+        width: 100%;
+    }
+
     .btn-cerrar-semana {
         width: 100%;
     }
@@ -395,25 +448,4 @@ td:last-child {
     .modal-botones {
         flex-direction: column;
     }
-    .grupo-botones {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.acciones-header {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.btn-regresar {
-    background: #2a6bac;
-    padding: 13px 18px;
-}
-
-.btn-regresar:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
 }

@@ -111,6 +111,24 @@
                 <span class="portal-arrow"></span>
 
             </button>
+            <button
+    class="portal-btn portal-nomina"
+    onclick="irJustificarFalta()"
+>
+
+    <span class="portal-icon icon-nomina"></span>
+
+    <span class="portal-text">
+        Justificar falta
+
+        <small>
+            Envía comprobante médico o evidencia al administrador
+        </small>
+    </span>
+
+    <span class="portal-arrow"></span>
+
+</button>
 
             <!-- ADMIN -->
 
@@ -201,6 +219,10 @@ function registrarEntrada() {
 
     window.location.href =
         "scanner.php?tipo=entrada";
+}
+
+function irJustificarFalta() {
+    window.location.href = "JustificarFalta.php";
 }
 
 function registrarSalida() {

@@ -1,0 +1,303 @@
+:root {
+    --azul-oscuro: #081534;
+    --azul-medio: #2a6bac;
+    --azul-claro: #47a8e5;
+    --verde: #27ae60;
+    --rojo: #c0392b;
+    --amarillo: #f39c12;
+    --gris: #f4f6f9;
+    --blanco: #ffffff;
+    --negro: #1f1f1f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--azul-oscuro);
+    color: var(--blanco);
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px;
+}
+
+.admin-container {
+    max-width: 1250px;
+    margin: auto;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.admin-header h1 {
+    margin: 0 0 6px;
+    color: white;
+}
+
+.admin-header p {
+    margin: 0;
+    color: #d9e7ff;
+}
+
+.btn-regresar,
+.btn-recargar,
+.btn-aprobar,
+.btn-rechazar,
+.btn-archivo,
+.btn-confirmar,
+.btn-cancelar {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.btn-regresar {
+    background: linear-gradient(135deg, var(--azul-medio), var(--azul-claro));
+}
+
+.btn-recargar {
+    background: var(--azul-medio);
+}
+
+.btn-aprobar {
+    background: var(--verde);
+    margin-bottom: 5px;
+}
+
+.btn-rechazar {
+    background: var(--rojo);
+}
+
+.btn-archivo {
+    background: var(--azul-claro);
+}
+
+.btn-cancelar {
+    background: #7f8c8d;
+}
+
+.btn-aprobar-modal {
+    background: var(--verde);
+}
+
+.btn-rechazar-modal {
+    background: var(--rojo);
+}
+
+button:hover,
+.btn-archivo:hover,
+.btn-regresar:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.panel-filtros {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.panel-filtros input {
+    flex: 1;
+    min-width: 260px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+.tabla-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.35);
+}
+
+.tabla-contenedor {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+    color: black;
+}
+
+thead {
+    background: var(--azul-medio);
+    color: white;
+}
+
+th,
+td {
+    padding: 13px 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #eef6ff;
+}
+
+.td-motivo {
+    max-width: 260px;
+    text-align: left;
+    white-space: normal;
+}
+
+.badge {
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.estado-pendiente {
+    background: var(--amarillo);
+}
+
+.estado-aprobada {
+    background: var(--verde);
+}
+
+.estado-rechazada {
+    background: var(--rojo);
+}
+
+.texto-revisado {
+    color: #555;
+    font-weight: bold;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.modal-contenido {
+    background: white;
+    color: black;
+    max-width: 500px;
+    width: 100%;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+}
+
+.modal-contenido h2 {
+    color: var(--azul-oscuro);
+    margin-top: 0;
+}
+
+.modal-contenido p {
+    color: #555;
+}
+
+.modal-contenido label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: var(--azul-oscuro);
+}
+
+.modal-contenido textarea {
+    width: 100%;
+    min-height: 110px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    padding: 12px;
+    resize: vertical;
+    outline: none;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-botones button {
+    flex: 1;
+}
+
+.alerta {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 260px;
+    max-width: 380px;
+    color: white;
+    padding: 15px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: all 0.35s ease;
+    z-index: 10000;
+}
+
+.alerta.mostrar {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.alerta.success {
+    background: var(--verde);
+}
+
+.alerta.error {
+    background: var(--rojo);
+}
+
+@media screen and (max-width: 650px) {
+    body {
+        padding: 15px;
+    }
+
+    .admin-header {
+        align-items: stretch;
+    }
+
+    .btn-regresar {
+        width: 100%;
+        text-align: center;
+    }
+
+    .panel-filtros input,
+    .btn-recargar {
+        width: 100%;
+    }
+
+    .modal-botones {
+        flex-direction: column;
+    }
+}

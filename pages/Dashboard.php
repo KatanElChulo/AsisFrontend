@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <!-- CSS DASHBOARD -->
-    <link rel="stylesheet" href="../css/dashboard.css?v=2">
+    <link rel="stylesheet" href="../css/dashboard.css?v=3">
 
 </head>
 
@@ -123,8 +123,31 @@
 
                 <p>
                     Administra pagos,
-                    cálculos y reportes
-                    financieros.
+                    cálculos, faltas,
+                    retardos y reportes.
+                </p>
+
+            </div>
+
+            <!-- JUSTIFICACIONES -->
+
+            <div
+                class="dashboard-card card-justificaciones"
+                onclick="irJustificaciones()"
+            >
+
+                <div class="dashboard-icon icon-justificaciones" aria-hidden="true">
+                    <span></span>
+                </div>
+
+                <h2>
+                    Justificaciones
+                </h2>
+
+                <p>
+                    Revisa comprobantes enviados
+                    por empleados y aprueba
+                    o rechaza faltas.
                 </p>
 
             </div>
@@ -153,15 +176,15 @@ const usuario =
 if (!usuario) {
 
     window.location.href =
-        "../login.php";
+        "../index.php";
 }
 
 /* VALIDAR ADMIN */
 
-if (usuario.rol !== "ADMIN") {
+if (usuario && usuario.rol !== "ADMIN") {
 
-     window.location.href =
-        "AsisFrontend/pages/Dashboard.php";
+    window.location.href =
+        "Portal.php";
 }
 
 /* REDIRECCIONES */
@@ -178,16 +201,16 @@ function irRoles() {
         "Rol.php";
 }
 
-function irAsistencias() {
-
-    window.location.href =
-        "Asistencias.php";
-}
-
 function irNominas() {
 
     window.location.href =
         "Nominas.php";
+}
+
+function irJustificaciones() {
+
+    window.location.href =
+        "JustificacionesAdmin.php";
 }
 
 function volverPortal() {

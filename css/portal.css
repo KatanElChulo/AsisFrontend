@@ -198,6 +198,19 @@ body::after {
     box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.65);
     position: relative;
     overflow: hidden;
+
+    display: grid;
+    place-items: center;
+}
+
+.portal-icon svg {
+    width: 34px;
+    height: 34px;
+    stroke: var(--color-acento);
+    stroke-width: 2.4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .portal-text {
@@ -265,162 +278,6 @@ body::after {
     --color-borde: #cbd5e1;
 }
 
-/* ============================
-   ICONOS CORREGIDOS Y CENTRADOS
-============================ */
-
-/* ENTRADA */
-
-.icon-entrada::before {
-    content: "";
-    position: absolute;
-    width: 30px;
-    height: 36px;
-    left: 18px;
-    top: 16px;
-    border: 3px solid var(--color-acento);
-    border-radius: 6px;
-}
-
-.icon-entrada::after {
-    content: "";
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    left: 25px;
-    top: 26px;
-    border-top: 4px solid var(--color-acento);
-    border-right: 4px solid var(--color-acento);
-    transform: rotate(45deg);
-}
-
-/* SALIDA */
-
-.icon-salida::before {
-    content: "";
-    position: absolute;
-    width: 30px;
-    height: 36px;
-    left: 20px;
-    top: 16px;
-    border: 3px solid var(--color-acento);
-    border-radius: 6px;
-}
-
-.icon-salida::after {
-    content: "";
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    left: 25px;
-    top: 26px;
-    border-top: 4px solid var(--color-acento);
-    border-right: 4px solid var(--color-acento);
-    transform: rotate(45deg);
-}
-
-/* NÓMINA */
-
-.icon-nomina::before {
-    content: "";
-    position: absolute;
-    width: 36px;
-    height: 28px;
-    left: 16px;
-    top: 20px;
-    border: 4px solid var(--color-acento);
-    border-radius: 8px;
-}
-
-.icon-nomina::after {
-    content: "$";
-    position: absolute;
-    left: 28px;
-    top: 18px;
-    color: var(--color-acento);
-    font-size: 27px;
-    font-weight: 900;
-    line-height: 1;
-}
-
-/* JUSTIFICACIÓN */
-
-.icon-justificacion::before {
-    content: "";
-    position: absolute;
-    width: 32px;
-    height: 40px;
-    left: 18px;
-    top: 13px;
-    border: 4px solid var(--color-acento);
-    border-radius: 8px;
-}
-
-.icon-justificacion::after {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 10px;
-    left: 25px;
-    top: 31px;
-    border-left: 4px solid var(--color-acento);
-    border-bottom: 4px solid var(--color-acento);
-    transform: rotate(-45deg);
-}
-
-/* ADMIN */
-
-.icon-admin::before,
-.icon-admin::after {
-    content: "";
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    border: 3px solid var(--color-acento);
-    border-radius: 4px;
-}
-
-.icon-admin::before {
-    left: 17px;
-    top: 17px;
-    box-shadow:
-        22px 0 0 -3px var(--color-suave),
-        22px 0 0 0 var(--color-acento);
-}
-
-.icon-admin::after {
-    left: 17px;
-    top: 39px;
-    box-shadow:
-        22px 0 0 -3px var(--color-suave),
-        22px 0 0 0 var(--color-acento);
-}
-
-/* LOGOUT */
-
-.icon-logout::before {
-    content: "";
-    position: absolute;
-    width: 31px;
-    height: 31px;
-    left: 18px;
-    top: 18px;
-    border: 4px solid var(--color-acento);
-    border-top-color: transparent;
-    border-radius: 50%;
-}
-
-.icon-logout::after {
-    content: "";
-    position: absolute;
-    width: 4px;
-    height: 23px;
-    left: 32px;
-    top: 14px;
-    background: var(--color-acento);
-    border-radius: 999px;
-}
-
 /* RESPONSIVE */
 
 @media screen and (max-width: 768px) {
@@ -457,82 +314,9 @@ body::after {
         min-width: 58px;
     }
 
-    .icon-entrada::before,
-    .icon-salida::before {
-        width: 26px;
-        height: 31px;
-        left: 15px;
-        top: 13px;
-    }
-
-    .icon-entrada::after,
-    .icon-salida::after {
-        width: 14px;
-        height: 14px;
-        left: 21px;
-        top: 22px;
-    }
-
-    .icon-nomina::before {
-        width: 31px;
-        height: 24px;
-        left: 13px;
-        top: 17px;
-    }
-
-    .icon-nomina::after {
-        left: 23px;
-        top: 15px;
-        font-size: 24px;
-    }
-
-    .icon-justificacion::before {
-        width: 28px;
-        height: 36px;
-        left: 14px;
-        top: 10px;
-    }
-
-    .icon-justificacion::after {
-        width: 16px;
-        height: 9px;
-        left: 20px;
-        top: 26px;
-    }
-
-    .icon-admin::before,
-    .icon-admin::after {
-        width: 13px;
-        height: 13px;
-    }
-
-    .icon-admin::before {
-        left: 13px;
-        top: 13px;
-        box-shadow:
-            19px 0 0 -3px var(--color-suave),
-            19px 0 0 0 var(--color-acento);
-    }
-
-    .icon-admin::after {
-        left: 13px;
-        top: 32px;
-        box-shadow:
-            19px 0 0 -3px var(--color-suave),
-            19px 0 0 0 var(--color-acento);
-    }
-
-    .icon-logout::before {
-        width: 27px;
-        height: 27px;
-        left: 15px;
-        top: 15px;
-    }
-
-    .icon-logout::after {
-        left: 27px;
-        top: 11px;
-        height: 21px;
+    .portal-icon svg {
+        width: 30px;
+        height: 30px;
     }
 }
 
@@ -556,93 +340,19 @@ body::after {
     }
 
     .portal-icon {
-        display: block;
         width: 50px;
         height: 50px;
         min-width: 50px;
+    }
+
+    .portal-icon svg {
+        width: 27px;
+        height: 27px;
     }
 
     .portal-arrow {
         width: 12px;
         height: 12px;
         min-width: 12px;
-    }
-
-    .icon-entrada::before,
-    .icon-salida::before {
-        width: 23px;
-        height: 28px;
-        left: 13px;
-        top: 10px;
-    }
-
-    .icon-entrada::after,
-    .icon-salida::after {
-        width: 12px;
-        height: 12px;
-        left: 19px;
-        top: 18px;
-    }
-
-    .icon-nomina::before {
-        width: 27px;
-        height: 20px;
-        left: 11px;
-        top: 14px;
-    }
-
-    .icon-nomina::after {
-        left: 20px;
-        top: 12px;
-        font-size: 21px;
-    }
-
-    .icon-justificacion::before {
-        width: 24px;
-        height: 31px;
-        left: 12px;
-        top: 8px;
-    }
-
-    .icon-justificacion::after {
-        width: 14px;
-        height: 8px;
-        left: 17px;
-        top: 22px;
-    }
-
-    .icon-admin::before,
-    .icon-admin::after {
-        width: 12px;
-        height: 12px;
-    }
-
-    .icon-admin::before {
-        left: 12px;
-        top: 12px;
-        box-shadow:
-            18px 0 0 -3px var(--color-suave),
-            18px 0 0 0 var(--color-acento);
-    }
-
-    .icon-admin::after {
-        left: 12px;
-        top: 30px;
-        box-shadow:
-            18px 0 0 -3px var(--color-suave),
-            18px 0 0 0 var(--color-acento);
-    }
-
-    .icon-logout::before {
-        width: 25px;
-        height: 25px;
-        left: 12px;
-        top: 13px;
-    }
-
-    .icon-logout::after {
-        left: 24px;
-        top: 10px;
-        height: 20px;
     }
 }

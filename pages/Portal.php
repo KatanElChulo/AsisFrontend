@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="../css/style.css">
 
-    <link rel="stylesheet" href="../css/portal.css?v=10">
+    <link rel="stylesheet" href="../css/portal.css?v=20">
 
 </head>
 
@@ -50,7 +50,13 @@
                 onclick="registrarEntrada()"
             >
 
-                <span class="portal-icon icon-entrada"></span>
+                <span class="portal-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                        <path d="M10 17l5-5-5-5"/>
+                        <path d="M15 12H3"/>
+                    </svg>
+                </span>
 
                 <span class="portal-text">
                     Registrar Entrada
@@ -71,7 +77,13 @@
                 onclick="registrarSalida()"
             >
 
-                <span class="portal-icon icon-salida"></span>
+                <span class="portal-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <path d="M16 17l5-5-5-5"/>
+                        <path d="M21 12H9"/>
+                    </svg>
+                </span>
 
                 <span class="portal-text">
                     Registrar Salida
@@ -92,7 +104,14 @@
                 onclick="irMiNomina()"
             >
 
-                <span class="portal-icon icon-nomina"></span>
+                <span class="portal-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="6" width="18" height="12" rx="2"/>
+                        <circle cx="12" cy="12" r="2"/>
+                        <path d="M7 10h.01"/>
+                        <path d="M17 14h.01"/>
+                    </svg>
+                </span>
 
                 <span class="portal-text">
                     Mi nómina semanal
@@ -113,7 +132,13 @@
                 onclick="irJustificarFalta()"
             >
 
-                <span class="portal-icon icon-justificacion"></span>
+                <span class="portal-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <path d="M14 2v6h6"/>
+                        <path d="m9 15 2 2 4-4"/>
+                    </svg>
+                </span>
 
                 <span class="portal-text">
                     Justificar falta
@@ -136,7 +161,14 @@
                 onclick="irDashboard()"
             >
 
-                <span class="portal-icon icon-admin"></span>
+                <span class="portal-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                </span>
 
                 <span class="portal-text">
                     Dashboard Administrador
@@ -157,7 +189,12 @@
                 onclick="cerrarSesion()"
             >
 
-                <span class="portal-icon icon-logout"></span>
+                <span class="portal-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2v10"/>
+                        <path d="M18.4 6.6a9 9 0 1 1-12.8 0"/>
+                    </svg>
+                </span>
 
                 <span class="portal-text">
                     Cerrar sesión

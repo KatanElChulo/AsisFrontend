@@ -40,7 +40,7 @@
                     </h1>
 
                     <p>
-                        Gestiona el sistema DorayPaty
+                        Gestiona empleados, roles, nóminas y justificaciones desde un solo lugar.
                     </p>
 
                 </div>

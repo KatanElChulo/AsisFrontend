@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="../css/style.css">
 
-    <link rel="stylesheet" href="../css/portal.css">
+    <link rel="stylesheet" href="../css/portal.css?v=2">
 
 </head>
 
@@ -27,14 +27,10 @@
                 <span></span>
             </div>
 
-            <!-- TITULO -->
-
             <h1
                 class="portal-title"
                 id="bienvenida">
             </h1>
-
-            <!-- SUBTITULO -->
 
             <p
                 class="portal-subtitle"
@@ -44,8 +40,6 @@
             <div class="portal-divider"></div>
 
         </div>
-
-        <!-- BOTONES -->
 
         <div class="portal-buttons">
 
@@ -104,31 +98,34 @@
                     Mi nómina semanal
 
                     <small>
-                        Consulta tus días trabajados, faltas y pago acumulado
+                        Consulta tus días trabajados, faltas, retardos y pago acumulado
                     </small>
                 </span>
 
                 <span class="portal-arrow"></span>
 
             </button>
+
+            <!-- JUSTIFICAR FALTA -->
+
             <button
-    class="portal-btn portal-nomina"
-    onclick="irJustificarFalta()"
->
+                class="portal-btn portal-justificacion"
+                onclick="irJustificarFalta()"
+            >
 
-    <span class="portal-icon icon-nomina"></span>
+                <span class="portal-icon icon-justificacion"></span>
 
-    <span class="portal-text">
-        Justificar falta
+                <span class="portal-text">
+                    Justificar falta
 
-        <small>
-            Envía comprobante médico o evidencia al administrador
-        </small>
-    </span>
+                    <small>
+                        Envía comprobante médico o evidencia al administrador
+                    </small>
+                </span>
 
-    <span class="portal-arrow"></span>
+                <span class="portal-arrow"></span>
 
-</button>
+            </button>
 
             <!-- ADMIN -->
 
@@ -182,12 +179,8 @@
 
 <script>
 
-/* OBTENER USUARIO */
-
 const usuario =
     JSON.parse(localStorage.getItem("usuario"));
-
-/* VALIDAR LOGIN */
 
 if (!usuario) {
 
@@ -195,17 +188,11 @@ if (!usuario) {
         "../index.php";
 }
 
-/* MOSTRAR NOMBRE */
-
 document.getElementById("bienvenida").innerText =
     "Bienvenido " + usuario.nombre;
 
-/* MOSTRAR ROL */
-
 document.getElementById("rolUsuario").innerText =
     "Rol: " + usuario.rol;
-
-/* MOSTRAR BOTON ADMIN */
 
 if (usuario.rol === "ADMIN") {
 
@@ -213,16 +200,10 @@ if (usuario.rol === "ADMIN") {
         .style.display = "flex";
 }
 
-/* FUNCIONES */
-
 function registrarEntrada() {
 
     window.location.href =
         "scanner.php?tipo=entrada";
-}
-
-function irJustificarFalta() {
-    window.location.href = "JustificarFalta.php";
 }
 
 function registrarSalida() {
@@ -235,6 +216,12 @@ function irMiNomina() {
 
     window.location.href =
         "MiNomina.php";
+}
+
+function irJustificarFalta() {
+
+    window.location.href =
+        "JustificarFalta.php";
 }
 
 function irDashboard() {

@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="../css/style.css">
 
-    <link rel="stylesheet" href="../css/portal.css?v=20">
+    <link rel="stylesheet" href="../css/portal.css">
 
 </head>
 

@@ -583,4 +583,198 @@ body::after {
         top: 10px;
         height: 20px;
     }
+    /* ============================
+   AJUSTE FINAL ICONOS PORTAL
+============================ */
+
+.portal-icon {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+/* ENTRADA Y SALIDA */
+
+.icon-entrada::before,
+.icon-salida::before {
+    width: 30px !important;
+    height: 34px !important;
+    left: 19px !important;
+    top: 17px !important;
+    border-width: 3px !important;
+    border-radius: 6px !important;
+}
+
+.icon-entrada::after,
+.icon-salida::after {
+    width: 15px !important;
+    height: 15px !important;
+    left: 26px !important;
+    top: 26px !important;
+    border-top-width: 4px !important;
+    border-right-width: 4px !important;
+}
+
+/* NÓMINA */
+
+.icon-nomina::before {
+    width: 34px !important;
+    height: 26px !important;
+    left: 17px !important;
+    top: 21px !important;
+    border-width: 4px !important;
+    border-radius: 7px !important;
+}
+
+.icon-nomina::after {
+    left: 29px !important;
+    top: 19px !important;
+    font-size: 25px !important;
+    line-height: 1 !important;
+}
+
+/* JUSTIFICACIÓN */
+
+.icon-justificacion::before {
+    width: 31px !important;
+    height: 39px !important;
+    left: 18px !important;
+    top: 14px !important;
+    border-width: 4px !important;
+    border-radius: 7px !important;
+}
+
+.icon-justificacion::after {
+    width: 17px !important;
+    height: 9px !important;
+    left: 25px !important;
+    top: 31px !important;
+    border-left-width: 4px !important;
+    border-bottom-width: 4px !important;
+}
+
+/* ADMIN */
+
+.icon-admin::before,
+.icon-admin::after {
+    width: 15px !important;
+    height: 15px !important;
+    border-width: 3px !important;
+}
+
+.icon-admin::before {
+    left: 17px !important;
+    top: 17px !important;
+    box-shadow:
+        22px 0 0 -3px var(--color-suave),
+        22px 0 0 0 var(--color-acento) !important;
+}
+
+.icon-admin::after {
+    left: 17px !important;
+    top: 39px !important;
+    box-shadow:
+        22px 0 0 -3px var(--color-suave),
+        22px 0 0 0 var(--color-acento) !important;
+}
+
+/* LOGOUT */
+
+.icon-logout::before {
+    width: 30px !important;
+    height: 30px !important;
+    left: 19px !important;
+    top: 19px !important;
+    border-width: 4px !important;
+}
+
+.icon-logout::after {
+    width: 4px !important;
+    height: 22px !important;
+    left: 32px !important;
+    top: 15px !important;
+}
+
+/* ============================
+   RESPONSIVE ICONOS
+============================ */
+
+@media screen and (max-width: 768px) {
+    .portal-icon {
+        width: 58px !important;
+        height: 58px !important;
+        min-width: 58px !important;
+    }
+
+    .icon-nomina::before {
+        left: 12px !important;
+        top: 17px !important;
+    }
+
+    .icon-nomina::after {
+        left: 24px !important;
+        top: 15px !important;
+    }
+
+    .icon-justificacion::before {
+        left: 13px !important;
+        top: 9px !important;
+    }
+
+    .icon-justificacion::after {
+        left: 20px !important;
+        top: 26px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .portal-icon {
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+    }
+
+    .icon-entrada::before,
+    .icon-salida::before {
+        width: 24px !important;
+        height: 28px !important;
+        left: 13px !important;
+        top: 11px !important;
+    }
+
+    .icon-entrada::after,
+    .icon-salida::after {
+        width: 13px !important;
+        height: 13px !important;
+        left: 19px !important;
+        top: 19px !important;
+    }
+
+    .icon-nomina::before {
+        width: 27px !important;
+        height: 20px !important;
+        left: 11px !important;
+        top: 15px !important;
+    }
+
+    .icon-nomina::after {
+        left: 20px !important;
+        top: 13px !important;
+        font-size: 21px !important;
+    }
+
+    .icon-justificacion::before {
+        width: 24px !important;
+        height: 31px !important;
+        left: 13px !important;
+        top: 9px !important;
+    }
+
+    .icon-justificacion::after {
+        width: 14px !important;
+        height: 8px !important;
+        left: 18px !important;
+        top: 23px !important;
+    }
+}
 }

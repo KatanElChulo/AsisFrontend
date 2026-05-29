@@ -10,7 +10,7 @@
     <title>Nóminas</title>
 
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/nominas.css?v=10">
+    <link rel="stylesheet" href="../css/nominas.css?v=11">
 
 </head>
 
@@ -22,7 +22,7 @@
         <h1>Nóminas</h1>
 
         <p>
-            Control semanal automático de pagos, faltas, retardos y días trabajados
+            Control semanal automático de pagos, faltas, retardos, justificadas y días trabajados
         </p>
     </div>
 
@@ -85,7 +85,7 @@
             <h2>Nómina semana actual en vivo</h2>
 
             <p>
-                Se calcula automáticamente con las asistencias registradas de lunes a viernes.
+                Se calcula automáticamente con las asistencias y justificaciones aprobadas de lunes a viernes.
             </p>
         </div>
 
@@ -107,6 +107,7 @@
                     <th>ID Empleado</th>
                     <th>Empleado</th>
                     <th>Días Trabajados</th>
+                    <th>Justificadas</th>
                     <th>Faltas</th>
                     <th>Retardos</th>
                     <th>Sueldo Diario</th>
@@ -119,7 +120,7 @@
             <tbody id="tablaNominaActual">
 
                 <tr>
-                    <td colspan="8">Cargando nómina actual...</td>
+                    <td colspan="9">Cargando nómina actual...</td>
                 </tr>
 
             </tbody>
@@ -271,7 +272,7 @@
 
 </div>
 
-<script src="../js/nominas.js?v=10"></script>
+<script src="../js/nominas.js?v=11"></script>
 
 <script>
 

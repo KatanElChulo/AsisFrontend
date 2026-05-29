@@ -48,10 +48,13 @@ function pintarNomina(data) {
         `Semana del ${formatearFecha(data.fecha_inicio)} al ${formatearFecha(data.fecha_fin)}`;
 
     document.getElementById("diasTrabajados").textContent =
-        data.dias_trabajados;
+        data.dias_trabajados ?? 0;
+
+    document.getElementById("justificadas").textContent =
+        data.justificadas ?? 0;
 
     document.getElementById("faltas").textContent =
-        data.faltas;
+        data.faltas ?? 0;
 
     document.getElementById("retardos").textContent =
         data.retardos ?? 0;
@@ -71,6 +74,9 @@ function pintarNomina(data) {
     } else if (Number(data.retardos) > 0) {
         estado.textContent = "Con retardos";
         estado.className = "estado-nomina estado-amarillo";
+    } else if (Number(data.justificadas) > 0) {
+        estado.textContent = "Con faltas justificadas";
+        estado.className = "estado-nomina estado-verde";
     } else if (Number(data.dias_trabajados) > 0) {
         estado.textContent = "Al corriente";
         estado.className = "estado-nomina estado-verde";
@@ -109,6 +115,8 @@ function pintarDetalle(detalle) {
             clase = "badge rojo";
         } else if (item.estado === "Entrada sin salida") {
             clase = "badge amarillo";
+        } else if (item.estado === "Justificada") {
+            clase = "badge verde";
         }
 
         fila.innerHTML = `

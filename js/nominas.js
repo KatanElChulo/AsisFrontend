@@ -74,7 +74,7 @@ function pintarTablaNominaActual(data) {
     if (!data || data.length === 0) {
         tablaNominaActual.innerHTML = `
             <tr>
-                <td colspan="8">No hay empleados activos para mostrar.</td>
+                <td colspan="9">No hay empleados activos para mostrar.</td>
             </tr>
         `;
         return;
@@ -92,6 +92,9 @@ function pintarTablaNominaActual(data) {
         } else if (Number(item.retardos) > 0) {
             estado = "Con retardos";
             claseEstado = "estado-amarillo";
+        } else if (Number(item.justificadas) > 0) {
+            estado = "Con justificadas";
+            claseEstado = "estado-verde";
         } else if (Number(item.dias_trabajados) > 0) {
             estado = "Al corriente";
             claseEstado = "estado-verde";
@@ -101,6 +104,7 @@ function pintarTablaNominaActual(data) {
             <td>${item.empleado_id}</td>
             <td>${item.empleado}</td>
             <td>${item.dias_trabajados}</td>
+            <td>${item.justificadas ?? 0}</td>
             <td>${item.faltas}</td>
             <td>${item.retardos ?? 0}</td>
             <td>$${Number(item.sueldo_diario).toFixed(2)}</td>
@@ -341,7 +345,8 @@ busquedaActual.addEventListener("input", function () {
         return (
             String(item.empleado_id).includes(texto) ||
             String(item.empleado).toLowerCase().includes(texto) ||
-            String(item.retardos ?? 0).includes(texto)
+            String(item.retardos ?? 0).includes(texto) ||
+            String(item.justificadas ?? 0).includes(texto)
         );
     });
 

@@ -11,7 +11,7 @@
         Sistema de Control de Asistencia
     </title>
 
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/login.css?v=2">
 
 </head>
 
@@ -127,7 +127,7 @@
                         <input
                             type="email"
                             id="correo"
-                            placeholder="Ingresa tu usuario o correo"
+                            placeholder="Ingresa tu correo"
                             required
                         >
 
@@ -226,29 +226,50 @@ form.addEventListener("submit", async function(e) {
 
     e.preventDefault();
 
+    mensaje.textContent = "";
+    mensaje.classList.remove("error", "success");
+
     const correo =
-        document.getElementById("correo").value;
+        document.getElementById("correo").value.trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("password").value.trim();
+
+    if (correo === "" || password === "") {
+
+        mensaje.textContent =
+            "Ingresa correo y contraseña";
+
+        mensaje.classList.add("error");
+
+        return;
+    }
 
     try {
 
         const respuesta = await fetch(
-    "../AsisBackend/api/login.php",
-    {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            correo: correo,
-            password: password
-        })
-    }
-);
+            "../AsisBackend/api/login.php",
+            {
+                method: "POST",
 
-        const data = await respuesta.json();
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    correo: correo,
+                    password: password
+                })
+            }
+        );
+
+        const texto =
+            await respuesta.text();
+
+        console.log("Respuesta login.php:", texto);
+
+        const data =
+            JSON.parse(texto);
 
         if (data.success) {
 
@@ -257,13 +278,20 @@ form.addEventListener("submit", async function(e) {
                 JSON.stringify(data.usuario)
             );
 
-            window.location.href =
-                "pages/Portal.php";
+            mensaje.textContent =
+                "Inicio de sesión correcto";
+
+            mensaje.classList.add("success");
+
+            setTimeout(() => {
+                window.location.href =
+                    "pages/Portal.php";
+            }, 500);
 
         } else {
 
             mensaje.textContent =
-                data.message;
+                data.message || "Usuario o contraseña incorrectos";
 
             mensaje.classList.add("error");
         }
